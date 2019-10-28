@@ -21,11 +21,11 @@
   <title>Pianoafrik</title>
 
   <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
   <style media="screen">
     .bg-login-image{
@@ -1077,123 +1077,47 @@
 
 <body class="bg-gradient-primary">
   <br></br>
-    <div class="s130">
-      <form>
-          <div class="inner-form">
-            <div class="input-field first-wrap">
-              <div class="svg-wrapper">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-                </svg>
-              </div>
-              <input id="search" type="text" placeholder="Search Channel By Name" />
-            </div>
-            <div class="input-field second-wrap">
-              <button class="btn-search" type="button">SEARCH</button>
-            </div>
-          </div>
-            <center><span id="infoMover" class="info"></span></center>
-          <br><br>
-          <div class="container">
-              <div id="boobiti" class="row">
-              </div>
-          </div>
-        </form>
-    </div>
+    <center>
+      <h1 id="titler" class="center">Loading...</h1>
+    <div class="">
+      <div class="form-check">
+        <input style="size:80px" type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label style="color:white" class="form-check-label" for="exampleCheck1">Check me out</label>
+      </div>
 
+
+    </div>
+    </center>
 
 
   <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../vendor/jquery/jquery.min.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
+  <script src="../js/sb-admin-2.min.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
   <script type="text/javascript">
 
   (async () => {
 
-    await localStorage.clear();
-    $("#infoMover").html("Loading Channels Please Wait...")
-    await axios.post(`https://poole23.herokuapp.com/api/ping/user.createCoupon/`, {})
-    .then((response) => {
-      const data = response.data;
-      localStorage.channels = JSON.stringify(data);
-      const lameme = [];
+    const channel = await JSON.parse(localStorage.channelChosen);
+    $("#titler").html(channel.name);
 
-      data.forEach((datum)=>{
-
-        const htmlBody = `
-                          <div class="col-lg-6">
-                            <div class="card">
-                              <h4 style="color:black">${datum.name}</h4>
-                              <p style="color:black">Channel Link: <a target="_blank" href=${datum.link}>here</a></p>
-                              <p style="color:black"> <strong>${datum.courses.length}</strong> Courses</p>
-                              <input channelId=${datum.id} type=button class="btn btn-info buyButton" value="Buy & Dwonload Courses"/>
-                            </div>
-                            <br>
-                          </div>`
-        lameme.push(htmlBody);
-      })
-
-      $("#boobiti").html(lameme.join(","));
-      $("#infoMover").html(`Search From The ${lameme.length} Youtube Channels On this Platform`);
-
-      console.log(data);
-    }, (error) => {
-      console.log(error);
-    });
+    // lay down courses
+    console.log(channel.courses);
 
 
-    await $("document").ready( async function (){
 
-
-      $(".buyButton").unbind("click").click(function (){
-        const channelId = $(this).attr("channelId");
-        const dataChosen = (JSON.parse(localStorage.channels).filter(b => b.id == channelId))[0];
-        localStorage.channelChosen = JSON.stringify(dataChosen);
-        location.href = "/pay-and-buy-courses";
-        console.log(JSON.parse(localStorage.channelChosen));
-      })
-
-      $("#loginButton").unbind("click").click(async function(){
-        let $this = $(this);
-        let email    = $("#inputEmail").val();
-        let password = $("#inputPassword").val();
-
-        $this.text("Authenticating...");
-        if (email.length > 0 && password.length > 0) {
-
-          console.log("lamaa");
-
-          await axios.post('https://poole23.herokuapp.com/api/users/login', {
-            email: email,
-            password: password
-          })
-          .then((response) => {
-            $this.text("Success...Redirecting..");
-            const data = response.data;
-            // */
-          }, (error) => {
-            console.log(error);
-            alert("wrong email and password")
-          });
-
-          return
-        }
-
-        alert("Please Enter Email And Password")
-      })
-
-    })
-
+    // await console.log(channel);
 
   })();
+
+
   </script>
 
 </body>
