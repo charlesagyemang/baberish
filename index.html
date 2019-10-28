@@ -92,28 +92,40 @@
 
   <script type="text/javascript">
 
-  const tokenIsValid = (token, callback) => {
-    try {
-      const currentTime = Date.now()/1000;
-      const dataGotten =  JSON.parse(atob(token.split('.')[1])).exp;
-      return callback(dataGotten > currentTime)
-      // console.log(dataGotten > currentTime);
-    } catch (e) {
-      return null;
-    }
-  };
+  /*
+  (index):102 ZHSbXryZJHApXhYkx Bankye Tv
+  (index):102 Ki5goeXZFn6sDq9TY Mafia Tv
+  (index):102 SdHDDLscJ53jfvrdZ Mama TV
+  (index):102 iwBGFZZEgsQFksp3t Mama TV
+  (index):102 er26XbBoi9sB5KinB Ashtown Tv 2
+  (index):102 avmXMrbehTZgZPcQQ Mekko Tv
+  (index):102 hwoqZkfiK8YXbWNej Ashtown Tv
+  */
 
 
-  if (localStorage.dataGotten) {
-    const fullData = JSON.parse(localStorage.dataGotten);
-    tokenIsValid(fullData.token, (bool) => {
-     if (bool) { alert("Youve Already Logged In. Lets Get you Bac In"); location.href="/dashboard"; }
-    });
-  }
+
+  (async () => {
+
+    // const payload = [
+    //   "ZHSbXryZJHApXhYkx", "Ki5goeXZFn6sDq9TY", "SdHDDLscJ53jfvrdZ",
+    //   "iwBGFZZEgsQFksp3t", "er26XbBoi9sB5KinB", "avmXMrbehTZgZPcQQ",
+    //   "hwoqZkfiK8YXbWNej"
+    // ]
+    //
+    // await axios.post('https://poole23.herokuapp.com/api/ping/admin.deleteSomeChannels', {channelId: payload[0]})
+    // .then((response) => {
+    //   const data = response.data;
+    //   console.log(data);
+    // }, (error) => {
+    //   console.log(error);
+    // });
+
+   })();
 
 
 
     $("document").ready( function (){
+      localStorage.clear();
 
       $("#loginButton").unbind("click").click(function(){
         let $this = $(this);
@@ -121,11 +133,10 @@
         let password = $("#inputPassword").val();
 
         $this.text("Authenticating...");
-
         if (email.length > 0 && password.length > 0) {
 
           console.log("lamaa");
-          localStorage.clear();
+
           axios.post('https://poole23.herokuapp.com/api/users/login', {
             email: email,
             password: password
@@ -133,17 +144,6 @@
           .then((response) => {
             $this.text("Success...Redirecting..");
             const data = response.data;
-            // console.log(data);
-            // /*
-            localStorage.dataGotten = JSON.stringify(data);
-            localStorage.idGotten = data.id;
-            localStorage.tokenGotten = data.token;
-            localStorage.channelGotten = JSON.stringify(data.channels[data.channels.length - 1]);
-            localStorage.myConfig = JSON.stringify({headers: { Authorization: `Bearer ${data.token}`}});
-            // console.log(JSON.parse(localStorage.myConfig));
-            // console.log(JSON.parse(localStorage.channelGotten));
-
-            location.href = "/dashboard";
             // */
           }, (error) => {
             console.log(error);
