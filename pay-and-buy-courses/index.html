@@ -1079,10 +1079,28 @@
   <br></br>
     <center>
       <h1 id="titler" class="center">Loading...</h1>
-      <div id="packInside">
-
-      </div>
     </center>
+
+      <form>
+       <div class="row">
+         <div class="col-sm-3">
+
+         </div>
+         <div class="col-sm-7">
+           <div class="form-group">
+             <label style="color:white" for="recipient-name" class="col-form-label">You Can Select One Or More.. Hit On The Button After Selection To Proceed. Thank You.</label>
+             <div id="packInside">
+
+             </div>
+           </div>
+         </div>
+         <div class="col-sm-2">
+
+         </div>
+       </div>
+
+        </div>
+      </form>
 
 
   <!-- Bootstrap core JavaScript-->
@@ -1103,16 +1121,18 @@
     const channel = await JSON.parse(localStorage.channelChosen);
     const courses = await channel.courses;
 
-    $("#titler").html(channel.name);
+    $("#titler").html("Please Select The Courses You'll Like To Purchase & Download");
 
     const coursesArray = [];
 
-    courses.forEach((course) => {
+    courses.forEach((eachCourse) => {
       const malom =  `
-                        <div class="form-check">
-                          <input style="size:80px" type="checkbox" class="form-check-input" id="exampleCheck1">
-                          <label style="color:white" class="form-check-label" for="exampleCheck1">${course.title} GHC 50</label>
-                        </div>
+                      <div class="form-check">
+                      <input class="form-check-input" name="courses" type="checkbox" value=${eachCourse.id} id=${eachCourse.id}>
+                      <label style="color:white" class="form-check-label" for=${eachCourse.id}>
+                        ${eachCourse.title} <strong>${eachCourse.payload.price}</strong>   <a target="_blank" style="color:yellow" href=${eachCourse.trailerLink}>Watch Trailer</a>
+                      </label>
+                    </div>
                         `
       coursesArray.push(malom);
     })
@@ -1121,6 +1141,7 @@
 
 
     $("#packInside").html(coursesArray.join(""))
+    $("#packInside").append(`<br><input type="button" value="Pay And Download" class="btn btn-success"/>`)
 
     // $("#packInside")
 
