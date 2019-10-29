@@ -1079,14 +1079,9 @@
   <br></br>
     <center>
       <h1 id="titler" class="center">Loading...</h1>
-    <div class="">
-      <div class="form-check">
-        <input style="size:80px" type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label style="color:white" class="form-check-label" for="exampleCheck1">Check me out</label>
+      <div id="packInside">
+
       </div>
-
-
-    </div>
     </center>
 
 
@@ -1106,11 +1101,28 @@
   (async () => {
 
     const channel = await JSON.parse(localStorage.channelChosen);
+    const courses = await channel.courses;
+
     $("#titler").html(channel.name);
 
-    // lay down courses
-    console.log(channel.courses);
+    const coursesArray = [];
 
+    courses.forEach((course) => {
+      const malom =  `
+                        <div class="form-check">
+                          <input style="size:80px" type="checkbox" class="form-check-input" id="exampleCheck1">
+                          <label style="color:white" class="form-check-label" for="exampleCheck1">${course.title} GHC 50</label>
+                        </div>
+                        `
+      coursesArray.push(malom);
+    })
+
+    console.log(coursesArray);
+
+
+    $("#packInside").html(coursesArray.join(""))
+
+    // $("#packInside")
 
 
     // await console.log(channel);
