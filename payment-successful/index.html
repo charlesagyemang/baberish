@@ -1080,61 +1080,10 @@
 <body class="bg-gradient-primary">
   <br></br>
     <center>
-      <h1 id="titler" class="center">Loading...</h1>
+      <h1 id="titler" class="center">Payment Successfull!.. Wait As We Generate A Link For You To Access The Download Links...</h1>
     </center>
 
-      <form>
-       <div class="row">
-         <div class="col-sm-3">
 
-         </div>
-         <div class="col-sm-7">
-           <div class="form-group">
-             <label style="color:white" for="recipient-name" class="col-form-label">You Can Select One Or More.. Hit On The Button After Selection To Proceed. Thank You.</label>
-             <div id="packInside">
-
-             </div>
-           </div>
-         </div>
-         <div class="col-sm-2">
-
-         </div>
-       </div>
-
-        </div>
-      </form>
-
-
-      <button id="modalClick" style="display:none" type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>
-
-      <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="addCourseModalTitleText">Your Details</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">Email:*</label>
-                  <input id="inputEmail" type="text" class="form-control" id="recipient-name">
-                </div>
-                <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">PhoneNumber:*</label>
-                  <input id="inputPhone" type="text" class="form-control" id="recipient-name">
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button id="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button id="submitUserDetails" type="button" class="btn btn-primary">Submit & Proceed To Payment</button>
-            </div>
-          </div>
-        </div>
-      </div>
 
 
   <!-- Bootstrap core JavaScript-->
@@ -1151,111 +1100,7 @@
   <script type="text/javascript">
 
   (async () => {
-
-    const channel = await JSON.parse(localStorage.channelChosen);
-    const courses = await channel.courses;
-
-    $("#titler").html("Please Select The Courses You'll Like To Purchase & Download");
-
-    const coursesArray = [];
-
-    courses.forEach((eachCourse) => {
-      const malom =  `
-                      <div class="form-check">
-                      <input class="form-check-input" name="courses" type="checkbox" value=${eachCourse.id} id=${eachCourse.id}>
-                      <label style="color:white" class="form-check-label" for=${eachCourse.id}>
-                        ${eachCourse.title} <strong>${eachCourse.payload.price}</strong>   <a target="_blank" style="color:yellow" href=${eachCourse.trailerLink}>Watch Trailer</a>
-                      </label>
-                    </div>
-                        `
-      coursesArray.push(malom);
-    })
-
-    console.log(coursesArray);
-
-
-    $("#packInside").html(coursesArray.join(""))
-    $("#packInside").append(`<br><input id="payButton" type="button" value="Pay And Download" class="btn btn-success"/>`)
-
-    // $("#packInside")
-
-    $("#payButton").unbind("click").click(function() {
-      const cSelected = [];
-       $.each($("input[name='courses']:checked"), function(){
-           cSelected.push($(this).val())
-       })
-
-       // console.log(cSelected);
-
-       if (cSelected.length > 0) {
-         // console.log("yeyeyeye");
-         $("#modalClick").click();
-
-         $("#submitUserDetails").unbind("click").click(function(){
-           // check ifd shit is empty
-           const email = $("#inputEmail").val();
-           const phone = $("#inputPhone").val();
-           $this = $(this);
-           const emailPattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-
-            if (email.length > 0 && phone.length > 0 && emailPattern.test(email)) {
-              console.log(email, phone);
-              $this.text("processing.. Please Wait..")
-              localStorage.raveEmail = email;
-              localStorage.ravePhoneNumber = phone;
-              $("#closeModal").click();
-
-              // rave begin
-
-              const API_publicKey ="FLWPUBK_TEST-8418900ec77aeef8ad1e1c731b6d8e15-X"
-
-              var x = getpaidSetup({
-                PBFPubKey: API_publicKey,
-                customer_email: localStorage.raveEmail,
-                amount: 2000,
-                customer_phone: localStorage.ravePhoneNumber,
-                currency: "GHS",
-                txref: "rave-123456",
-                meta: [{
-                    metaname: "flightID",
-                    metavalue: "AP1234"
-                }],
-                onclose: function() {},
-                callback: function(response) {
-                    var txref = response.tx.txRef; // collect txRef returned and pass to a 					server page to complete status check.
-                    console.log("This is the response returned after a charge", response);
-                    if (
-                        response.tx.chargeResponseCode == "00" ||
-                        response.tx.chargeResponseCode == "0"
-                    ) {
-                        // redirect to a success page
-                        console.log("=========SUCESSSSSS=======");
-                        location.href = "/payment-successful";
-
-                        // make a call
-                    } else {
-                        // redirect to a failure page.
-                        console.log("=======FAILED========");
-                        alert("Payment Failed")
-                        location.href = "/";
-
-                    }
-
-                    x.close(); // use this to close the modal immediately after payment.
-                }
-            });
-
-              return;
-            }
-            alert("Error: Please Fill The Boxes With A Valid Email And Phone Number In Order To Proceed");
-
-         })
-
-         return
-       }
-
-       alert("Error: No Course Selected Please Select One Or More And try Again")
-    })
+     console.log("PAYMENT SUCCESSFUl");
 
     // await console.log(channel);
 
