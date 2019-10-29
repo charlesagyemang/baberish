@@ -12,6 +12,8 @@
     gtag('config', 'UA-72059622-2');
   </script>
 
+  <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -1103,6 +1105,38 @@
       </form>
 
 
+      <button id="modalClick" style="display:none" type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button>
+
+      <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addCourseModalTitleText">Your Details</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">Email:*</label>
+                  <input id="inputEmail" type="text" class="form-control" id="recipient-name">
+                </div>
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">PhoneNumber:*</label>
+                  <input id="inputPhone" type="text" class="form-control" id="recipient-name">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button id="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button id="submitUserDetails" type="button" class="btn btn-primary">Submit & Proceed To Payment</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
   <!-- Bootstrap core JavaScript-->
   <script src="../vendor/jquery/jquery.min.js"></script>
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -1141,10 +1175,83 @@
 
 
     $("#packInside").html(coursesArray.join(""))
-    $("#packInside").append(`<br><input type="button" value="Pay And Download" class="btn btn-success"/>`)
+    $("#packInside").append(`<br><input id="payButton" type="button" value="Pay And Download" class="btn btn-success"/>`)
 
     // $("#packInside")
 
+    $("#payButton").unbind("click").click(function() {
+      const cSelected = [];
+       $.each($("input[name='courses']:checked"), function(){
+           cSelected.push($(this).val())
+       })
+
+       // console.log(cSelected);
+
+       if (cSelected.length > 0) {
+         // console.log("yeyeyeye");
+         $("#modalClick").click();
+
+         $("#submitUserDetails").unbind("click").click(function(){
+           // check ifd shit is empty
+           const email = $("#inputEmail").val();
+           const phone = $("#inputPhone").val();
+           $this = $(this);
+           const emailPattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+            if (email.length > 0 && phone.length > 0 && emailPattern.test(email)) {
+              console.log(email, phone);
+              $this.text("processing.. Please Wait..")
+              localStorage.raveEmail = email;
+              localStorage.ravePhoneNumber = phone;
+              $("#closeModal").click();
+
+              // rave begin
+
+              const API_publicKey ="FLWPUBK_TEST-8418900ec77aeef8ad1e1c731b6d8e15-X"
+
+              var x = getpaidSetup({
+                PBFPubKey: API_publicKey,
+                customer_email: localStorage.raveEmail,
+                amount: 2000,
+                customer_phone: localStorage.ravePhoneNumber,
+                currency: "GHS",
+                txref: "rave-123456",
+                meta: [{
+                    metaname: "flightID",
+                    metavalue: "AP1234"
+                }],
+                onclose: function() {},
+                callback: function(response) {
+                    var txref = response.tx.txRef; // collect txRef returned and pass to a 					server page to complete status check.
+                    console.log("This is the response returned after a charge", response);
+                    if (
+                        response.tx.chargeResponseCode == "00" ||
+                        response.tx.chargeResponseCode == "0"
+                    ) {
+                        // redirect to a success page
+                        console.log("=========SUCESSSSSS=======");
+
+                        // make a call 
+                    } else {
+                        // redirect to a failure page.
+                        console.log("=======FAILED========");
+                    }
+
+                    x.close(); // use this to close the modal immediately after payment.
+                }
+            });
+
+              return;
+            }
+            alert("Error: Please Fill The Boxes With A Valid Email And Phone Number In Order To Proceed");
+
+         })
+
+         return
+       }
+
+       alert("Error: No Course Selected Please Select One Or More And try Again")
+    })
 
     // await console.log(channel);
 
