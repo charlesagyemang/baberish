@@ -1142,7 +1142,6 @@
 
 
     if (localStorage.dataGotten !== undefined) {
-      const data = JSON.parse(localStorage.dataGotten);
       $(".show").removeAttr('hidden')
       $("#loading").html("Piano Afrik Chord Portal")
     } else {
@@ -1169,6 +1168,8 @@
 
 
     $("#get-chords").click(function(){
+
+      const data = JSON.parse(localStorage.dataGotten);
 
       const coupons = data.channels[0].coupons
 
