@@ -1139,9 +1139,10 @@
   ( async () => {
 
     $("#loading").html("LOADING PLEASE WAIT....")
-    const data = JSON.parse(localStorage.dataGotten);
+
 
     if (localStorage.dataGotten !== undefined) {
+      const data = JSON.parse(localStorage.dataGotten);
       $(".show").removeAttr('hidden')
       $("#loading").html("Piano Afrik Chord Portal")
     } else {
