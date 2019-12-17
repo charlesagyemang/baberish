@@ -21,11 +21,11 @@
   <title>Pianoafrik</title>
 
   <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
   <style media="screen">
     .bg-login-image{
@@ -1089,9 +1089,9 @@
         </div>
         <div class="col">
           <center>
-            <h3 class="mx-auto" style="width: 500px;">Enter Your Email To Get Access</h3><br>
-            <input id="key-value" type="text" name="" value="" placeholder="Enter Email">
-            <button id="get-chords" class="btn btn-primary" type="button" name="button">Enter System</button><br>
+            <h3 class="mx-auto" style="width: 500px;">Enter Key And Press Get Chords</h3><br>
+            <input maxlength="2" id="key-value" type="text" name="" value="" placeholder="Enter Key Eg c">
+            <button id="get-chords" class="btn btn-success" type="button" name="button">Get Chords</button><br>
           </center>
         </div>
         <div class="col">
@@ -1125,66 +1125,116 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <!-- Bootstrap core JavaScript-->
-<script src="../vendor/jquery/jquery.min.js"></script>
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="../js/sb-admin-2.min.js"></script>
+<script src="../../js/sb-admin-2.min.js"></script>
 
 <script type="text/javascript">
 
+if ( localStorage.verified == "true") {
+} else {
+  alert("Unauthorized")
+  location.href = "/"
+}
+
   ( async () => {
 
-    $("#loading").html("LOADING PLEASE WAIT....")
-    const data = JSON.parse(localStorage.dataGotten);
+      function getHarmonizedChords ($this) {
+        let key = $("#key-value").val();
+        const key1 = key.toUpperCase();
+        const valid = ["c", "c#", "d" , "eb", "e", "f", "f#", "g", "g#", "a", "bb", "b"].includes(key.split(" ")[0].toLowerCase());
 
-    if (localStorage.dataGotten !== undefined) {
-      $(".show").removeAttr('hidden')
-      $("#loading").html("Piano Afrik Chord Portal")
-    } else {
-      axios.post('https://poole23.herokuapp.com/api/users/login', {
-        email: "micnkru@gmail.com",
-        password: "password"
-      })
-      .then((response) => {
-        const data = response.data;
-        console.log(data.channels[0].coupons);
-        $(".show").removeAttr('hidden')
-        $("#loading").html("Piano Afrik Chord Portal")
-        localStorage.dataGotten = JSON.stringify(data);
-        localStorage.idGotten = data.id;
-        localStorage.tokenGotten = data.token;
-        localStorage.channelGotten = JSON.stringify(data.channels[data.channels.length - 1]);
-        localStorage.myConfig = JSON.stringify({headers: { Authorization: `Bearer ${data.token}`}});
-      }, (error) => {
-        console.log(error);
-        alert("wrong email and password")
-      });
+        if (key.length > 0 && valid) {
+          // console.log(key);
 
+          if (key == "c#" || key == "g#" || key == "f#") {
+            key = key.split("")[0] + "2"
+          }
+
+          console.log(key);
+
+          // /*
+          $this.text("Fetching... Please Wiat..");
+          axios.get(`https://piano-chords-ghana.herokuapp.com/home/harmonized_chords?key=${key}`)
+          .then((response) => {
+            $this.text("Success..");
+            setTimeout(()=>{$this.text("Get Chords");}, 1000)
+
+            const sofas = response.data.sofas;
+            const chordsAndSofas = Object.values(response.data.chords_and_sofas);
+
+
+            response = Object.values(response.data.message);
+
+            harmonizationArray = []
+
+            // harmonization
+            response.forEach((resp) => {
+              const formBody = `
+                                  <br />${resp.degree}: <br />
+                                  Harmonization Options: <br /> ${resp.options.join("<br />")}
+                                `
+              // console.log(resp);
+              harmonizationArray.push(formBody)
+            })
+
+            // harmonizes chords
+            $("#show_harm").html(`<br /><h3>Harmonized Chords In ${key1} </h3>`)
+            $("#show_harm").append(harmonizationArray.join("<br /><br />"));
+
+            // normal chords
+            $("#show_sofas").html(`<br /><h3> ${key1} Chords Only </h3>`)
+            $("#show_sofas").append(sofas.join(" Chord <br />"))
+
+            chordsAndSofasArray = []
+
+            chordsAndSofas.forEach((chords, ind) => {
+              console.log(chords);
+              const body = `<br /> ${chords.degree} Chord || ${ind + 1} Chord <br />
+                              Chord Name: ${chords.chord_name} Chord <br />
+                              Chord Inversions: <br /> ${chords.chord_inversions.join("<br />")}
+                           `
+              chordsAndSofasArray.push(body);
+            })
+
+            $("#show_sofas_and_chords").html(`<br /><h3>Chords & Inv In ${key1} </h3>`)
+            $("#show_sofas_and_chords").append(chordsAndSofasArray.join("<br /><br />"))
+
+
+
+          }).catch((error) => {
+            console.log(error);
+          })
+
+          return
+      }
+
+      alert("Error: Please Enter A Correct Key: Eg C, D Eb");
     }
 
+    $("#loading").html("Loading... please wait!")
 
-    $("#get-chords").click(function(){
-
-      const coupons = data.channels[0].coupons
-
-      const keyValue = $("#key-value").val();
+    // await console.log("Heyy");
 
 
-      const res = coupons.filter(blob => blob.ownerDetails.email == keyValue)[0]
+    axios.get(`https://piano-chords-ghana.herokuapp.com/home/ping`)
+    .then((response) => {
+      $(".show").removeAttr('hidden')
+      $("#loading").html("Piano Afrik Chord Portal")
 
-      if (res !== undefined) {
-        alert("Success Entry Gained!")
-        location.href = "/chords";
-        localStorage.verified = true;
-        return
-      }
-      alert("Wrong Email")
+    }).catch((error) => {
+      console.log(error);
     })
 
+    await $("#get-chords").unbind('click').click( async function(){
+      $this =  $(this);
+      getHarmonizedChords($this);
+    })
 
   })();
 
