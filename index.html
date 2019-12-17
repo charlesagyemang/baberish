@@ -1096,6 +1096,7 @@
           <br><br>
           <div class="container">
               <div id="boobiti" class="row">
+
               </div>
           </div>
         </form>
@@ -1129,7 +1130,7 @@
       data.forEach((datum)=>{
 
         const htmlBody = `
-                          <div class="col-lg-6">
+                          <div class="col">
                             <div class="card">
                               <h4 style="color:black">${datum.name}</h4>
                               <p style="color:black">Channel Link: <a target="_blank" href=${datum.link}>here</a></p>
@@ -1191,6 +1192,24 @@
       })
 
     })
+
+
+    // await axios.post('https://poole23.herokuapp.com/api/ping/shatta.bundles', {
+    //   name: 'piano',
+    //   email: 'free@gmail.com',
+    //   password: 'password',
+    //   channelName: 'Pianoafrik Free',
+    //   channelLink: 'https://www.youtube.com/channel/UCYZUfP3R1r_Viea5gWkgeGg',
+    //   payload: {},
+    // })
+    // .then((response) => {
+    //   // $this.text("Success...Redirecting..");
+    //   const data = response.data;
+    //   // */
+    // }, (error) => {
+    //   console.log(error);
+    //   alert("wrong email and password")
+    // });
 
 
   })();

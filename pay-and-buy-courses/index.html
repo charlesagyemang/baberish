@@ -1162,17 +1162,15 @@
     courses.forEach((eachCourse) => {
       const malom =  `
                       <div class="form-check">
-                      <input class="form-check-input" name="courses" type="checkbox" value=${eachCourse.id} id=${eachCourse.id}>
+                      <input class="form-check-input" name="courses" type="checkbox" value="${eachCourse.id}--${eachCourse.payload.price.replace("GHC", "").replace(" ", "")}" id=${eachCourse.id}>
                       <label style="color:white" class="form-check-label" for=${eachCourse.id}>
                         ${eachCourse.title} <strong>${eachCourse.payload.price}</strong>   <a target="_blank" style="color:yellow" href=${eachCourse.trailerLink}>Watch Trailer</a>
                       </label>
-                    </div>
-                        `
+                    </div>`
       coursesArray.push(malom);
-    })
 
-    console.log(coursesArray);
-
+      // console.log(eachCourse.payload.price.replace("GHC", ""));
+    });
 
     $("#packInside").html(coursesArray.join(""))
     $("#packInside").append(`<br><input id="payButton" type="button" value="Pay And Download" class="btn btn-success"/>`)
@@ -1186,9 +1184,14 @@
        })
 
        // console.log(cSelected);
+       let loma = 0;
+
+       cSelected.forEach((rack) => {
+         loma += parseInt(rack.split("--")[1]);
+       })
 
        if (cSelected.length > 0) {
-         // console.log("yeyeyeye");
+         
          $("#modalClick").click();
 
          $("#submitUserDetails").unbind("click").click(function(){
@@ -1198,55 +1201,56 @@
            $this = $(this);
            const emailPattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-            if (email.length > 0 && phone.length > 0 && emailPattern.test(email)) {
-              console.log(email, phone);
-              $this.text("processing.. Please Wait..")
-              localStorage.raveEmail = email;
-              localStorage.ravePhoneNumber = phone;
-              $("#closeModal").click();
-
-              // rave begin
-
-              const API_publicKey ="FLWPUBK_TEST-8418900ec77aeef8ad1e1c731b6d8e15-X"
-
-              var x = getpaidSetup({
-                PBFPubKey: API_publicKey,
-                customer_email: localStorage.raveEmail,
-                amount: 2000,
-                customer_phone: localStorage.ravePhoneNumber,
-                currency: "GHS",
-                txref: "rave-123456",
-                meta: [{
-                    metaname: "flightID",
-                    metavalue: "AP1234"
-                }],
-                onclose: function() {},
-                callback: function(response) {
-                    var txref = response.tx.txRef; // collect txRef returned and pass to a 					server page to complete status check.
-                    console.log("This is the response returned after a charge", response);
-                    if (
-                        response.tx.chargeResponseCode == "00" ||
-                        response.tx.chargeResponseCode == "0"
-                    ) {
-                        // redirect to a success page
-                        console.log("=========SUCESSSSSS=======");
-                        location.href = "/payment-successful";
-
-                        // make a call
-                    } else {
-                        // redirect to a failure page.
-                        console.log("=======FAILED========");
-                        alert("Payment Failed")
-                        location.href = "/";
-
-                    }
-
-                    x.close(); // use this to close the modal immediately after payment.
-                }
-            });
-
-              return;
-            }
+            // if (email.length > 0 && phone.length > 0 && emailPattern.test(email)) {
+            //   // console.log(email, phone);
+            //   $this.text("processing.. Please Wait..")
+            //   localStorage.raveEmail = email;
+            //   localStorage.ravePhoneNumber = phone;
+            //   $("#closeModal").click();
+            //
+            //   // rave begin
+            //
+            //
+            //   const API_publicKey ="FLWPUBK_TEST-8418900ec77aeef8ad1e1c731b6d8e15-X"
+            //
+            //   var x = getpaidSetup({
+            //     PBFPubKey: API_publicKey,
+            //     customer_email: localStorage.raveEmail,
+            //     amount: loma,
+            //     customer_phone: localStorage.ravePhoneNumber,
+            //     currency: "GHS",
+            //     txref: "rave-123456",
+            //     meta: [{
+            //         metaname: "flightID",
+            //         metavalue: "AP1234"
+            //     }],
+            //     onclose: function() {},
+            //     callback: function(response) {
+            //         var txref = response.tx.txRef; // collect txRef returned and pass to a 					server page to complete status check.
+            //         console.log("This is the response returned after a charge", response);
+            //         if (
+            //             response.tx.chargeResponseCode == "00" ||
+            //             response.tx.chargeResponseCode == "0"
+            //         ) {
+            //             // redirect to a success page
+            //             console.log("=========SUCESSSSSS=======");
+            //             location.href = "/payment-successful";
+            //
+            //             // make a call
+            //         } else {
+            //             // redirect to a failure page.
+            //             console.log("=======FAILED========");
+            //             alert("Payment Failed")
+            //             location.href = "/";
+            //
+            //         }
+            //
+            //         x.close(); // use this to close the modal immediately after payment.
+            //     }
+            // });
+            //
+            //   return;
+            // }
             alert("Error: Please Fill The Boxes With A Valid Email And Phone Number In Order To Proceed");
 
          })
