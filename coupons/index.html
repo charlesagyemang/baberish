@@ -422,7 +422,7 @@
                           <td>${formattedExpDate}</td>
                           ${(notExpired) ? "<td>ACTIVE</td>" : "<td>INACTIVE</td>" }
                           <td><button couponId=${eachCoupon.id} class="btn btn-success notifyUser">Notify</button></td>
-                          <td><button couponId=${eachCoupon.id} class="btn btn-secondary viewRawLinks">Raw</button></td>
+                          <td><a couponId=${eachCoupon.id} href="/coupons/raw" target="_blank" class="btn btn-secondary viewRawLinks">Raw</a></td>
                           <td>${eachCoupon.ownerDetails.number}</td>
                           <td><input id=${eachCoupon.id} class="renewalTime" type="text" value=5 size="4" /><br /><br /><button classId=${eachCoupon.id} class="renewDays btn btn-primary">Renew</button></td>
                         </tr>`
@@ -481,17 +481,12 @@
         const couponId = $(this).attr("couponId") ;
 
         const couponSelected =  coupons.filter(blob => blob.id === couponId)[0];
-
         const lego = []
-
         couponSelected.courses.forEach((cc) => {
           mm = courses.filter(blob => blob.id === cc)[0];
           lego.push(mm);
         })
-
         localStorage.rawSelection = JSON.stringify(lego);
-        location.href = "/coupons/raw"
-
         console.log(JSON.parse(localStorage.rawSelection));
       });
 
