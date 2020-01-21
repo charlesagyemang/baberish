@@ -360,6 +360,7 @@
       const bodyHead = `
                           <thead>
                             <tr>
+                              <th>Date....Date</th>
                               <th>Owner Name</th>
                               <th>Owner Email</th>
                               <th>Generated Link</th>
@@ -373,6 +374,7 @@
                           </thead>
                           <tfoot>
                             <tr>
+                            <th>Date....Date</th>
                             <th>Owner Name</th>
                             <th>Owner Email</th>
                             <th>Generated Link</th>
@@ -394,28 +396,8 @@
         const notExpired = formattedExpDate > todaysDate;
         const individualCourses = []
 
-        // console.log(eachCoupon);
-
-        /*
-        eachCoupon.courses.forEach((cc) => {
-          mm = courses.filter(blob => blob.id === cc)[0];
-          individualCourses.push(mm.title);
-          //
-          // console.log("===Course Title===", mm.title);
-          //
-          // mm.lessons.forEach((lesson) => {
-          //   console.log( mm.title + "  ===Lessons=== ", lesson.title);
-          //   console.log( mm.title + "  ===Lessons Link=== ", lesson.youtubeLink);
-          // })
-
-            // <td> * ${individualCourses.join("<br /> * ")}</td>
-          // console.log(mm);
-        })
-
-        // console.log(eachCoupon.newFields);
-        */
-
         const eacher = `<tr>
+                          <td>${eachCoupon.createdAt.split("T")[0]}</td>
                           <td>${eachCoupon.ownerDetails.name}</td>
                           <td>${eachCoupon.ownerDetails.email}</td>
                           <td><a href=${eachCoupon.newFields.link} target="_blank">${eachCoupon.newFields.link}</a></td>
