@@ -266,6 +266,8 @@
                                 <th>End Date</th>
                                 <th>Owner Name</th>
                                 <th>Add Prizes</th>
+                                <th>Preview</th>
+
                                 <th>Edit</th>
                                 <th>Delete</th>
                               </tr>
@@ -278,6 +280,8 @@
                                 <th>End Date</th>
                                 <th>Owner Name</th>
                                 <th>Add Prizes</th>
+                                <th>Preview</th>
+
                                 <th>Edit</th>
                                 <th>Delete</th>
                               </tr>
@@ -294,8 +298,8 @@
                             <td>${item.dateToBegin.toString().split('T')[0]}</td>
                             <td>${item.dateToEnd.toString().split('T')[0]} </td>
                             <td>${item.owner.name} </td>
-
                             <td>${item.promos.length} Prizes<button itemId=${item.id} class="btn btn-info eachRadioAddPrizesButton">Add Prizes</button></td>
+                            <td><button itemId=${item.id} class="btn btn-secondary eachRadioAddPreviewsButton">Preview</button></td>
                             <td><button itemId=${item.id} class="btn btn-primary eachRadioEditButton">Edit</button></td>
                             <td><button itemId=${item.id} class="btn btn-danger  eachRadioDeleteButton" disabled>Delete</button></td>
                           </tr>`;
@@ -330,7 +334,23 @@
           window.location.href = "/promos"
 
         });
+
+
+
+        $('#lessonTableBody tbody').on('click', '.eachRadioAddPreviewsButton', function () {
+
+          const itemId = $(this).attr("itemId");
+
+          
+          window.location.href = `/responses?party=${itemId}`;
+
+        });
+
+
+
+
         //====== ADD PROMOS ======//
+
 
 
 
