@@ -177,6 +177,13 @@
               <input id="inputFour" type="date" class="form-control">
             </div>
 
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Choose An Owner:</label>
+              <div id="courseSelect">
+
+              </div>
+            </div>
+
           </form>
         </div>
         <div class="modal-footer">
@@ -218,6 +225,16 @@
     $("#datum").html(`Copyright &copy; AGBA ${year}`)
 
     $("#loading").html("Please Wait Data Loading......");
+    const owners = JSON.parse(localStorage.ownersList);
+
+    let ownersArray = [];
+    owners.forEach((eachOwner)=>{
+      const lam = `<option value=${eachOwner.id}>${eachOwner.name}</option>`;
+      ownersArray.push(lam);
+    });
+
+    $("#courseSelect").html(ownersArray);
+
 
     //====== GET ALL STATIONS =====//
       axios.post('https://poole23.herokuapp.com/api/owners/all', {})

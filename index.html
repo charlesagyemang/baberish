@@ -222,11 +222,8 @@
 
         $("#loading").html("Stations Table");
 
-
         const radioStaions = response.data
-        console.log(radioStaions);
-
-
+        localStorage.ownersList = JSON.stringify(radioStaions);
 
         const bodyHead = `
                             <thead>
