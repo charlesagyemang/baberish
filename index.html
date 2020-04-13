@@ -406,14 +406,15 @@
       })
     //===== GET ALL STATION ===//
 
+  });
+  </script>
 
-
-
-
-
-
-
-
+  <script>
+    axios.post('https://poole23.herokuapp.com/api/radios/agba-details', {})
+    .then((response) => {
+      console.log(response.data);
+    }).catch((err) => {
+      console.log(err);
     })
   </script>
 

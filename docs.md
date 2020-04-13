@@ -1,7 +1,38 @@
 # Radio Stations Docs
-### Endpoint: https://poole23.herokuapp.com/
-### Route: api/radios/all
+### Endpoint: https://poole23.herokuapp.com/api/radios
+
+### Route: /agba-details
 ### POST
+### ONLY AGBA DETAILS
+#### Post body
+
+```javascript
+  {}
+```
+
+### RESPONSE
+OnSuccess<Response>
+```javascript
+{
+  name: "A-G-B-A Radio",
+  streamingLink: "http://edge.mixlr.com/channel/eerso",
+  other: {
+    location: "Ablekuma - Fanmilk, Accra Ghana"
+  }
+}
+
+```
+
+### Route: /all
+### POST
+### ALL RADIO STATIONS
+#### Post body
+
+```javascript
+  {}
+```
+
+### RESPONSE
 OnSuccess<Response>
 ```javascript
 [
