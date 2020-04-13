@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72059622-2"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -17,130 +18,15 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title class="channelName">Pianoafrik</title>
+  <title>Pianoafrik</title>
 
-  <!-- Custom fonts for this template -->
+  <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-  <!-- Custom styles for this template -->
+  <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
-<<<<<<< HEAD
-  <!-- Custom styles for this page -->
-  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
-</head>
-
-<body id="page-top">
-
-  <!-- Page Wrapper -->
-  <div id="wrapper">
-
-    <!-- Sidebar -->
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" id="accordionSidebar">
-
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
-
-        <div class="sidebar-brand-text mx-3 channelName">Radio Stations</div>
-      </a>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
-        <a class="nav-link" href="#">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Interface
-      </div>
-
-
-
-      <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-book"></i>
-          <span>Stations</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Details:</h6>
-            <a class="collapse-item lessonCount" href="/">All Stations</a>
-            <a id="openStationModal" class="collapse-item" data-toggle="modal" data-target="#lessonModal" href="#">Add Station</a>
-          </div>
-        </div>
-      </li>
-
-
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
-
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-      </div>
-
-    </ul>
-    <!-- End of Sidebar -->
-
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- Main Content -->
-      <div id="content">
-
-        <!-- End of Topbar -->
-
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <br><br>
-          <h1 class="h3 mb-2 text-gray-800">Radio Sations <button id="addstation" class="btn btn-success btn-lg">ADD STATION</button></h1>
-
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 id="loading" class="m-0 font-weight-bold text-primary">Station Table</h6>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table id="lessonTableBody" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <table>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <!-- /.container-fluid -->
-
-      </div>
-      <!-- End of Main Content -->
-
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span id = "datum" >Copyright &copy; Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
-
-    </div>
-    <!-- End of Content Wrapper -->
-=======
   <style>
 
     text{
@@ -163,7 +49,7 @@
         left:520px;
     }
     #question h1{
-        font-size: 50px;
+        font-size: 20px;
         font-weight: bold;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         position: absolute;
@@ -183,7 +69,7 @@
     <br><br>
     <center>
       <h1>Pianoafrik Workshop 2020 <strong> Kumasi Edition </strong></h1>
-      <h2>Spin The Wheel</h2>
+      <h2 id="info-top">First 5 People To Register - Prizes Wheel</h2>
     </center>
     <div class="row">
       <div class="col">
@@ -195,285 +81,16 @@
         <div id="question"><h1></h1></div>
       </div>
       <div class="col">
->>>>>>> 217d35c2c1549e6edc485ec18208e6ad17c43de9
 
       </div>
     </div>
   </div>
-  <!-- End of Page Wrapper -->
 
+  <script src="./js/axios.min.js"></script>
 
+  <script src="../vendor/jquery/jquery.min.js"></script>
+  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <div class="modal fade" id="lessonModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addLessonModalTitleText">Add Course Modal</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Name:</label>
-                <input id="inputName" type="text" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Streaming Link:</label>
-                <input id="inputStreamingLink" type="text" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Location:</label>
-                <input id="inputLocation" type="text" class="form-control">
-              </div>
-
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="performSendAction" type="button" class="btn btn-primary">Add Station</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-<<<<<<< HEAD
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/datatables-demo.js"></script>
-  <script src="js/axios.min.js"></script>
-  <script src="js/addCourse.js?t=1572320679327"></script>
-  <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
-
-
-  <script>
-
-  $(document).ready(function(){
-    const year = moment().toDate().toString().split(" ")[3];
-    $("#datum").html(`Copyright &copy; AGBA ${year}`)
-    console.log();
-
-    $("#loading").html("Please Wait Data Loading......");
-
-    //====== GET ALL STATIONS =====//
-      axios.post('https://poole23.herokuapp.com/api/radios/all', {})
-      .then((response) => {
-
-        $("#loading").html("Stations Table");
-
-
-        const radioStaions = response.data
-
-
-        const bodyHead = `
-                            <thead>
-                              <tr>
-                                <th>Radio Name</th>
-                                <th>Location</th>
-                                <th>Stream Link</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                              </tr>
-                            </thead>
-                            <tfoot>
-                              <tr>
-                                <th>Radio Name</th>
-                                <th>Location</th>
-                                <th>Stream Link</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                              </tr>
-                            </tfoot>
-                            <tbody>
-                          `
-        const staionsArray = [];
-
-        radioStaions.forEach((item, i) => {
-
-          const eacher = `<tr>
-                            <td>${item.name}</td>
-                            <td>${item.other.location}</td>
-                            <td>${item.streamingLink}</td>
-                            <td><button stationId=${item.id} class="btn btn-primary eachRadioEditButton">Edit</button></td>
-                            <td><button stationId=${item.id} class="btn btn-danger  eachRadioDeleteButton">Delete</button></td>
-                          </tr>`;
-          staionsArray.push(eacher)
-        });
-
-
-        const tableDown = `  </tbody>
-                            </table>`
-
-
-
-        const final = bodyHead + staionsArray.join("")  + tableDown
-
-        $("#lessonTableBody").html(final)
-
-        $('#lessonTableBody').DataTable({
-          "pagingType": "full_numbers"
-        })
-
-
-
-        $('#lessonTableBody tbody').on('click', '.eachRadioEditButton', function () {
-
-          const stationId = $(this).attr("stationId");
-          const getStation =  radioStaions.filter(e => e.id === stationId)[0];
-
-          $("#openStationModal").click();
-          $("#addLessonModalTitleText").html("Edit Station");
-          $("#performSendAction").text("Edit Station");
-
-          $("#inputName").val(`${getStation.name}`);
-          $("#inputStreamingLink").val(`${getStation.streamingLink}`);
-          $("#inputLocation").val(`${getStation.other.location}`);
-
-
-
-          //==== Edit Radio Staion ====//
-
-          $("#performSendAction").unbind('click').click(function() {
-
-            $this = $(this);
-
-            const radioStationDetailsToUpdate = {
-              name:   $("#inputName").val(),
-              streamingLink: $("#inputStreamingLink").val(),
-              other: {
-                location: $("#inputLocation").val()
-              }
-            }
-
-            $this.text("Performing Edit....");
-
-            axios.post(`https://poole23.herokuapp.com/api/radios/edit/${stationId}`, radioStationDetailsToUpdate)
-            .then((response) => {
-              console.log(response.data);
-              $this.text("Edit Station");
-              alert("Edit Was successful Wait. Performing A Refresh")
-              location.reload();
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-
-
-          })
-
-          //==== Edit Radio Staion ===//
-         })
-
-
-
-       $('#lessonTableBody tbody').on('click', '.eachRadioDeleteButton', function () {
-
-         const stationId = $(this).attr("stationId");
-         const $this = $(this)
-
-
-         if (confirm('Are you sure you want Delete This Radio Staion?')) {
-         //===== Delete Radio Staition ===//
-          $this.text("Performing Delete...");
-
-           axios.delete(`https://poole23.herokuapp.com/api/radios/delete/${stationId}`)
-           .then((response) => {
-             console.log(response.data);
-             $this.text("successful");
-             location.reload();
-           })
-           .catch((err) => {
-             console.log(err);
-           });
-
-         //==== Delete Radio Station ====//
-          } else {
-            // Do nothing!
-          }
-
-
-        })
-
-
-      //===== Create Radio Staion ===//
-
-
-
-        $("#performSendAction").unbind('click').click(function() {
-
-          const $this = $(this);
-          const name = $("#inputName").val();
-          const location = $("#inputLocation").val();
-          const streamingLink = $("#inputStreamingLink").val();
-
-          if (name.length > 0 && location.length > 0 &&  streamingLink.length > 0 ) {
-
-            const radioStationDetails = {
-              name,
-              streamingLink,
-              other: {
-                location
-              }
-            }
-
-            $this.text("Adding Station....");
-
-            axios.post('https://poole23.herokuapp.com/api/radios/', radioStationDetails)
-            .then((response) => {
-              console.log(response.data);
-              $this.text("successful");
-              window.location.reload(true);
-            })
-            .catch((err) => {
-              console.log(err);
-            })
-
-
-          //==== Create Radio Staion ===//
-
-
-
-          } else {
-            alert("Error!!. All fields shoud be filled.")
-          }
-
-        })
-
-
-        $("#addstation").click(function(){
-
-          $("#openStationModal").click();
-
-        })
-
-
-      }).catch((error) => {
-        console.log(error);
-      })
-    //===== GET ALL STATION ===//
-
-  });
-  </script>
-
-  <script>
-    // axios.post('https://poole23.herokuapp.com/api/radios/agba-details', {})
-    // .then((response) => {
-    //   console.log(response.data);
-    // }).catch((err) => {
-    //   console.log(err);
-    // })
-=======
   <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
   <script type="text/javascript">
@@ -486,18 +103,17 @@
           picked = 100000,
           oldpick = [],
           color = d3.scale.category20();//category20c()
-            var data = [
-                  {"label":"Praise Masterclass",      "value":1,  "question":"Wow!!! Congrats you just won GH  Praise Masterclass. Yeyy!!!!"},
-                  {"label":"2020 Worship Course",     "value":2,  "question":"Wheww!!! Congrats you just won 2020 Comprehensive Worship Course In All Keys. You're A True Winner"},
-                  {"label":"T SHIRT",                 "value":3,  "question":"Congrats! you just won A Sleek Pianoafrik T-SHIRT. Yeyy!!!!"},
-                  {"label":"GHC 50 Cash",             "value":4,  "question":"Congrats! you just won GHC 50 Cash. Yeyy!!!!"},
-                  {"label":"GH Reggae Masterclass",   "value":5,  "question":"Awesome!! you just won GH Reggae Masterclass. Yeyy!!!!"},
-                  {"label":"GH 50 Cash",              "value":6,  "question":"Congrats! you just won GH 50 Cash. Yeyy!!!!"},
-                  {"label":"T SHIRT",                 "value":7,  "question":"Congrats! you just won A Sleek Pianoafrik T-SHIRT. Yeyy!!!!"},
-                  {"label":"GHC 50 Cash",             "value":8,  "question":"Congrats! you just won GHC 50 Cash. Yeyy!!!!"},
-                  {"label":"T SHIRT",                 "value":9,  "question":"Congrats! you just won A Sleek Pianoafrik T-SHIRT. Yeyy!!!!"},
-                  {"label":"T SHIRT",                 "value":10, "question":"Congrats! you just won A Sleek Pianoafrik T-SHIRT. Yeyy!!!!"},
-                ];
+
+          $("#info-top").html("Loading Please Wiat...");
+
+    axios.post('https://poole23.herokuapp.com/api/ping/test.routes', {})
+    .then((response) => {
+      console.log(response.data);
+
+      $("#info-top").html("First 5 People To Register - Prizes Wheel");
+
+      let data =  response.data;
+
       var svg = d3.select('#chart')
           .append("svg")
           .data([data])
@@ -597,6 +213,13 @@
           .attr("text-anchor", "middle")
           .text("SPIN")
           .style({"font-weight":"bold", "font-size":"30px"});
+          }).catch((error) => {
+            console.log(error);
+            $("#info-top").html("Error Please Reload Page");
+
+          });
+
+
 
 
       function rotTween(to) {
@@ -621,7 +244,6 @@
           }
           return array;
       }
->>>>>>> 217d35c2c1549e6edc485ec18208e6ad17c43de9
   </script>
 
 </body>
