@@ -11,6 +11,8 @@
     gtag('config', 'UA-72059622-2');
   </script>
 
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -112,7 +114,9 @@
 
           <!-- Page Heading -->
           <br><br>
-          <h1 class="h3 mb-2 text-gray-800">Wheels <button id="addOwner" class="btn btn-success btn-lg">ADD WHEEL</button></h1>
+          <h1 class="h3 mb-2 text-gray-800">Wheels <button id="addOwner" class="btn btn-secondary btn-lg">ADD WHEEL</button></h1>
+          <p>You can only a maximum of 10 Prizes to a wheel <a href="/" class="btn btn-info" >Back To All Owners</a></p>
+
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -161,6 +165,13 @@
         <div class="modal-body">
           <form>
             <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Choose An Owner:</label>
+              <div id="courseSelect">
+
+              </div>
+            </div>
+
+            <div class="form-group">
               <label for="inputOne" class="col-form-label">Header:</label>
               <input id="inputOne" type="text" class="form-control">
             </div>
@@ -175,13 +186,6 @@
             <div class="form-group">
               <label for="inputFour" class="col-form-label">Date To End:</label>
               <input id="inputFour" type="date" class="form-control">
-            </div>
-
-            <div class="form-group">
-              <label for="recipient-name" class="col-form-label">Choose An Owner:</label>
-              <div id="courseSelect">
-
-              </div>
             </div>
 
           </form>
@@ -227,20 +231,25 @@
     $("#loading").html("Please Wait Data Loading......");
     const owners = JSON.parse(localStorage.ownersList);
 
+    // SET RECOURSE //
     let ownersArray = [];
     owners.forEach((eachOwner)=>{
       const lam = `<option value=${eachOwner.id}>${eachOwner.name}</option>`;
       ownersArray.push(lam);
     });
 
-    $("#courseSelect").html(ownersArray);
+
+
+    $("#courseSelect").html(`<select id="selectCourses">\n` + ownersArray.join("\n") + "\n</select>");
+
+    // SET RECOURSE //
 
 
     //====== GET ALL STATIONS =====//
-      axios.post('https://poole23.herokuapp.com/api/owners/all', {})
+      axios.post('https://poole23.herokuapp.com/api/wheels/all', {})
       .then((response) => {
 
-        $("#loading").html("Stations Table");
+        $("#loading").html("Wheels Table");
 
 
         const radioStaions = response.data
@@ -251,20 +260,24 @@
         const bodyHead = `
                             <thead>
                               <tr>
+                                <th>Header</th>
+                                <th>Sub Heading</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
                                 <th>Owner Name</th>
-                                <th>Email</th>
-                                <th>Phone Number</th>
-                                <th>Wheels</th>
+                                <th>Add Prizes</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                               </tr>
                             </thead>
                             <tfoot>
                               <tr>
-                                <th>Radio Name</th>
-                                <th>Location</th>
-                                <th>Stream Link</th>
-                                <th>Wheels</th>
+                                <th>Header</th>
+                                <th>Sub Heading</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Owner Name</th>
+                                <th>Add Prizes</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                               </tr>
@@ -276,12 +289,15 @@
         radioStaions.forEach((item, i) => {
 
           const eacher = `<tr>
-                            <td>${item.name}</td>
-                            <td>${item.email}</td>
-                            <td>${item.phoneNumber}</td>
-                            <td>${item.wheels.length} Wheels</td>
+                            <td>${item.header}</td>
+                            <td>${item.subHeader}</td>
+                            <td>${item.dateToBegin.toString().split('T')[0]}</td>
+                            <td>${item.dateToEnd.toString().split('T')[0]} </td>
+                            <td>${item.owner.name} </td>
+
+                            <td>${item.promos.length} Prizes<button itemId=${item.id} class="btn btn-info eachRadioAddPrizesButton">Add Prizes</button></td>
                             <td><button itemId=${item.id} class="btn btn-primary eachRadioEditButton">Edit</button></td>
-                            <td><button itemId=${item.id} class="btn btn-danger  eachRadioDeleteButton">Delete</button></td>
+                            <td><button itemId=${item.id} class="btn btn-danger  eachRadioDeleteButton" disabled>Delete</button></td>
                           </tr>`;
           staionsArray.push(eacher)
         });
@@ -298,24 +314,41 @@
 
         $('#lessonTableBody').DataTable({
           "pagingType": "full_numbers"
-        })
+        });
+
+
+        //====== ADD PROMOS ======//
+
+        $('#lessonTableBody tbody').on('click', '.eachRadioAddPrizesButton', function () {
+
+          const itemId = $(this).attr("itemId");
+          const model = "Wheel";
+          const getItem =  radioStaions.filter(e => e.id === itemId)[0];
+
+          localStorage.selectedWheel = JSON.stringify(getItem);
+
+          window.location.href = "/promos"
+
+        });
+        //====== ADD PROMOS ======//
 
 
 
         $('#lessonTableBody tbody').on('click', '.eachRadioEditButton', function () {
 
           const itemId = $(this).attr("itemId");
-          const model = "Owner";
+          const model = "Wheel";
           const getItem =  radioStaions.filter(e => e.id === itemId)[0];
 
           $("#openOwnerModal").click();
           $("#addOwnerModalText").html(`Edit ${model}`);
           $("#performSendAction").text(`Edit ${model}`);
 
-          $("#inputOne").val(`${getItem.name}`);
-          $("#inputTwo").val(`${getItem.email}`);
-          $("#inputThree").val(`${getItem.phoneNumber}`);
-
+          $("#inputOne").val(`${getItem.header}`);
+          $("#inputTwo").val(`${getItem.subHeader}`);
+          $("#inputThree").val(moment(getItem.dateToBegin).format('YYYY-MM-DD'));
+          $("#inputFour").val(moment(getItem.dateToEnd).format('YYYY-MM-DD'));
+          $(`#courseSelect option[value=${getItem.owner.id}]`).attr('selected','selected');
 
           //==== Edit Radio Staion ====//
 
@@ -323,15 +356,29 @@
 
             $this = $(this);
 
-            const updateBodyTosend = {
-              name:   $("#inputOne").val(),
-              email: $("#inputTwo").val(),
-              phoneNumber: $("#inputThree").val(),
-            }
+            const inputOne = $("#inputOne").val();
+            const inputTwo = $("#inputTwo").val();
+            const inputThree = $("#inputThree").val();
+            const inputFour = $("#inputFour").val();
+            const inputFive = $('#selectCourses').find(":selected").val();
 
+
+            const updateBodyTosend = {
+              header: inputOne,
+              subHeader: inputTwo,
+              dateToBegin: inputThree,
+              dateToEnd: inputFour,
+              ownerId: inputFive,
+              other: {
+
+              },
+            }
             $this.text("Performing Edit....");
 
-            axios.patch(`https://poole23.herokuapp.com/api/owners/${itemId}`, updateBodyTosend)
+            // console.log(updateBodyTosend);
+
+
+            axios.patch(`https://poole23.herokuapp.com/api/wheels/${itemId}`, updateBodyTosend)
             .then((response) => {
               console.log(response.data);
               $this.text(`Edit ${model}`);
@@ -349,6 +396,7 @@
          })
 
 
+        /*
 
        $('#lessonTableBody tbody').on('click', '.eachRadioDeleteButton', function () {
 
@@ -377,6 +425,7 @@
 
 
         })
+        */
 
 
       //===== Create Radio Staion ===//
@@ -389,23 +438,29 @@
           const inputOne = $("#inputOne").val();
           const inputTwo = $("#inputTwo").val();
           const inputThree = $("#inputThree").val();
+          const inputFour = $("#inputFour").val();
+          const inputFive = $('#selectCourses').find(":selected").val();
+
 
           if (inputOne.length > 0 && inputTwo.length > 0 &&  inputThree.length > 0 ) {
 
             const dataToSend = {
-              name: inputOne,
-              email: inputTwo,
-              phoneNumber: inputThree,
+              header: inputOne,
+              subHeader: inputTwo,
+              dateToBegin: inputThree,
+              dateToEnd: inputFour,
+              ownerId: inputFive,
               other: {
-                status: 'ACTIVE',
-              }
+
+              },
             }
 
             $this.text("Adding....");
 
-            // console.log(dataToSend);
+            console.log(dataToSend);
 
-            axios.post('https://poole23.herokuapp.com/api/owners/', dataToSend)
+            // /*
+            axios.post('https://poole23.herokuapp.com/api/wheels/', dataToSend)
             .then((response) => {
               console.log(response.data);
               $this.text("successful");
@@ -414,6 +469,7 @@
             .catch((err) => {
               console.log(err);
             })
+            // */
 
 
           //==== Create Radio Staion ===//
@@ -432,6 +488,10 @@
           $("#openOwnerModal").click();
 
         })
+
+
+
+
 
 
       }).catch((error) => {
