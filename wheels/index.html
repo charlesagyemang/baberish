@@ -43,7 +43,7 @@
     <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
 
         <div class="sidebar-brand-text mx-3 channelName">Wheel Creator</div>
       </a>
@@ -267,7 +267,7 @@
                                 <th>Owner Name</th>
                                 <th>Add Prizes</th>
                                 <th>Responses</th>
-                                <th>Url</th>
+                                <th>Wheel Link</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                               </tr>
@@ -281,7 +281,7 @@
                                 <th>Owner Name</th>
                                 <th>Add Prizes</th>
                                 <th>Responses</th>
-                                <th>Url</th>
+                                <th>Wheel Link</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                               </tr>
@@ -297,7 +297,6 @@
           const extUrl = btoa(`301040?${item.id}`);
           const formUrl = `https://wheel.pianoafrik.org/responses?party=${extUrl}`;
 
-          console.log(formUrl);
 
 
           const eacher = `<tr>
@@ -309,8 +308,9 @@
                             <td>${item.promos.length} Prizes<button itemId=${item.id} class="btn btn-info eachRadioAddPrizesButton">Add/Edit Prizes</button></td>
                             <td>${item.responses.length} Responses<button itemId=${item.id} class="btn btn-secondary eachRadioViewResponsesButton">View Responses</button></td>
                             <td>
-                              <input type="text" value=${formUrl}></input><br /><br />
+                              <input id=${item.id}  type="text" value=${formUrl}></input><br /><br />
                               <a href=${formUrl} target="_blank" class="btn btn-secondary">Preview</a>
+                              <button id="${item.id}111" onClick=myFunction("${item.id}") target="_blank" class="myInput btn btn-info">Copy</button>
                             </td>
 
                             <td><button itemId=${item.id} class="btn btn-primary eachRadioEditButton">Edit</button></td>
@@ -363,20 +363,6 @@
           window.location.href = "/individual-responses";
 
         });
-
-
-        //
-        // $('#lessonTableBody tbody').on('click', '.eachRadioAddPreviewsButton', function () {
-        //
-        //   const itemId = $(this).attr("itemId");
-        //
-        //   // conbvert to base64
-        //   const extUrl = btoa(`301040?${itemId}`);
-        //
-        //   window.location.href = `/responses?party=${extUrl}`;
-        //
-        // });
-
 
         //====== ADD PROMOS ======//
 
@@ -502,7 +488,7 @@
 
             $this.text("Adding....");
 
-            console.log(dataToSend);
+            // console.log(dataToSend);
 
             // /*
             axios.post('https://poole23.herokuapp.com/api/wheels/', dataToSend)
@@ -544,7 +530,6 @@
       })
     //===== GET ALL STATION ===//
 
-    console.log("hshsh");
 
   });
   </script>
@@ -559,6 +544,31 @@
     const CLIENT_ID = "7b284e5c32dbf9f619e21348d8f5bed408354845"
     const CLIENT_SECRET = "6d1c4eb262cd27e0757aca9f38608f79f5acc7b1"
     const ACCESS_TOKEN = "4fcfe39159be5bc60a11887d55b5dc2683001adc"
+
+    function myFunction(id) {
+      /* Get the text field */
+
+      // console.log(helo);
+
+      let copyText = document.getElementById(id);
+      let button   = $(`#${id}111`);
+
+      /* Select the text field */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+      /* Copy the text inside the text field */
+      document.execCommand("copy");
+
+      button.text("Copied")
+
+      setTimeout(function() {
+        button.text("Copy")
+      }, 1200)
+
+      /* Alert the copied text */
+      // alert("Copied To Clipboard Successfully")
+    }
 
   </script>
 
