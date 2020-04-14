@@ -259,7 +259,7 @@
                             <td>${item.phoneNumber}</td>
                             <td>${item.wheels.length} Wheels</td>
                             <td><button itemId=${item.id} class="btn btn-primary eachRadioEditButton">Edit</button></td>
-                            <td><button itemId=${item.id} class="btn btn-danger  eachRadioDeleteButton" disabled>Delete</button></td>
+                            <td><button itemId=${item.id} class="btn btn-danger  eachRadioDeleteButton">Delete</button></td>
                           </tr>`;
           staionsArray.push(eacher)
         });
@@ -330,7 +330,7 @@
 
        $('#lessonTableBody tbody').on('click', '.eachRadioDeleteButton', function () {
 
-         const stationId = $(this).attr("stationId");
+         const stationId = $(this).attr("itemId");
          const $this = $(this)
 
 
@@ -338,7 +338,7 @@
          //===== Delete Radio Staition ===//
           $this.text("Performing Delete...");
 
-           axios.delete(`https://poole23.herokuapp.com/api/radios/delete/${stationId}`)
+           axios.delete(`https://poole23.herokuapp.com/api/owners/${stationId}`)
            .then((response) => {
              console.log(response.data);
              $this.text("successful");
@@ -417,18 +417,8 @@
       })
     //===== GET ALL STATION ===//
 
-    console.log("hshsh");
 
   });
-  </script>
-
-  <script>
-    // axios.post('https://poole23.herokuapp.com/api/radios/agba-details', {})
-    // .then((response) => {
-    //   console.log(response.data);
-    // }).catch((err) => {
-    //   console.log(err);
-    // })
   </script>
 
 </body>
