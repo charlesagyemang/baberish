@@ -64,12 +64,53 @@
 </head>
 
 <body>
+  <a id="openOwnerModal" class="collapse-item" data-toggle="modal" data-target="#ownerModal" href="#" hidden>Add Wheel</a>
+
+  <div class="modal fade" data-backdrop="static" data-keyboard="false"  id="ownerModal" tabindex="-1" role="dialog" aria-labelledby="ownerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addOwnerModalText"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" hidden>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="inputOne" class="col-form-label">Name:</label>
+              <input id="inputOne" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="inputTwo" class="col-form-label">Phone Number</label>
+              <input id="inputTwo" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="inputThree" class="col-form-label">Email:</label>
+              <input id="inputThree" type="text" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="inputFour" class="col-form-label">Location:</label>
+              <input id="inputFour" type="text" class="form-control">
+            </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button  id="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal" hidden></button>
+          <button id="performSendAction" type="button" class="btn btn-primary">Submit Claim</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <div class="container-fluid">
     <br><br>
     <center>
       <h1 id="mainHeader"></strong></h1>
-      <h2 id="info-top">First 5 People To Register - Prizes Wheel</h2>
+      <h2 id="info-top">Loading.../h2>
     </center>
     <div class="row">
       <div class="col">
@@ -111,13 +152,18 @@
           oldpick = [],
           color = d3.scale.category20();//category20c()
 
-          $("#info-top").html("Loading Please Wiat...");
+          $("#info-top").html("Loading Please Wait...");
 
     axios.get(`https://poole23.herokuapp.com/api/wheels/${param}`)
     .then((response) => {
 
+      const wheelData = response.data
 
-      let data =  response.data.promos;
+      let data =  wheelData.promos;
+
+      // console.log(data);
+
+
       $("#info-top").html(`${response.data.subHeader}`);
       $("#mainHeader").html(`${response.data.header}`)
 
@@ -198,8 +244,68 @@
                   /* Get the result value from object "data" */
                   const gottenFinalData = data[picked];
 
-                  console.log(gottenFinalData.label);
 
+                  // open modal
+                  $("#openOwnerModal").click();
+
+                  $("#addOwnerModalText").html(`${gottenFinalData.question} </br> Please fill the form below and click submit to claim your prize`);
+
+                  //declare the stuff
+                  $("#performSendAction").click(function() {
+
+                    const $this =  $(this);
+                    const inputOne = $("#inputOne").val();
+                    const inputTwo = $("#inputTwo").val();
+                    const inputThree = $("#inputThree").val();
+                    const inputFour = $("#inputFour").val();
+
+                    if (inputOne.length > 0 && inputTwo.length > 0 && inputThree.length > 0 && inputFour.length > 0 ) {
+
+                      const dataToSend = {
+                        customerName: inputOne,
+                        customerPhone: inputTwo,
+                        customerEmail: inputThree,
+                        wheelId: wheelData.id,
+                        promoId: gottenFinalData.id,
+                        other: {
+                          location: inputFour,
+                        },
+                      }
+
+                      // check input two and three
+
+                      const responsesSentAlready = wheelData.responses;
+
+                      // check if unique fields already exist
+                      const matchingDetails = responsesSentAlready.filter(e => e.customerEmail === dataToSend.customerEmail || e.customerPhone === dataToSend.customerPhone );
+
+                      if (matchingDetails.length > 0 ) {
+                        alert("You Have Already SpinnedAnd Submitted. A Second Spin Is Not Allowed And May Cause Disqualification Thankyou.");
+                        $("#closeModal").click();
+                        window.location.href = "/wheels";
+                      } else {
+                        $this.text("Submitting....");
+                        console.log(matchingDetails);
+                        // /*
+                        axios.post('https://poole23.herokuapp.com/api/responses/', dataToSend)
+                        .then((response) => {
+                          console.log(response.data);
+                          $("#closeModal").click();
+                          $this.text("Success Please Wait....");
+                          window.location.href = "/wheels";
+                        }).catch((err) => {
+                          console.log(err.errors);
+                          $this.text("Submit");
+                        });
+
+                        // */
+                      }
+
+
+                    } else {
+                      alert("Error!!! Please fill all fields dont leave any empty");
+                    }
+                  })
                   /* Comment the below line for restrict spin to sngle time */
                   // container.on("click", spin);
               });
