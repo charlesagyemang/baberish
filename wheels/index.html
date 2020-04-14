@@ -268,6 +268,7 @@
                                 <th>Add Prizes</th>
                                 <th>Preview</th>
                                 <th>Responses</th>
+                                <th>Url</th>
 
 
                                 <th>Edit</th>
@@ -284,6 +285,8 @@
                                 <th>Add Prizes</th>
                                 <th>Preview</th>
                                 <th>Responses</th>
+                                <th>Url</th>
+
 
                                 <th>Edit</th>
                                 <th>Delete</th>
@@ -295,6 +298,14 @@
 
         radioStaions.forEach((item, i) => {
 
+
+          const itemId = $(this).attr("itemId");
+          const extUrl = btoa(`301040?${item.id}`);
+          const formUrl = `https://wheel.pianoafrik.org/responses?party=${extUrl}`;
+
+          console.log(formUrl);
+
+
           const eacher = `<tr>
                             <td>${item.header}</td>
                             <td>${item.subHeader}</td>
@@ -303,7 +314,9 @@
                             <td>${item.owner.name} </td>
                             <td>${item.promos.length} Prizes<button itemId=${item.id} class="btn btn-info eachRadioAddPrizesButton">Add/Edit Prizes</button></td>
                             <td><button itemId=${item.id} class="btn btn-secondary eachRadioAddPreviewsButton">Preview</button></td>
-                            <td>${item.responses.length} Responses <br />  <button itemId=${item.id} class="btn btn-secondary eachRadioViewResponsesButton">View Responses</button>  </td>
+                            <td>${item.responses.length} Responses <br />  <button itemId=${item.id} class="btn btn-secondary eachRadioViewResponsesButton">View Responses</button></td>
+                            <td><input type="text" value=${formUrl}></input></td>
+
                             <td><button itemId=${item.id} class="btn btn-primary eachRadioEditButton">Edit</button></td>
                             <td><button itemId=${item.id} class="btn btn-danger  eachRadioDeleteButton" disabled>Delete</button></td>
                           </tr>`;
