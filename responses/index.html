@@ -138,7 +138,7 @@
 
   //get responses
   let searchParams = new URLSearchParams(window.location.search);
-  let param = searchParams.get('party');
+  let param = atob(searchParams.get('party')).split("301040?")[1];
 
   console.log(param);
 

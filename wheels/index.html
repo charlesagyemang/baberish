@@ -361,18 +361,15 @@
 
           const itemId = $(this).attr("itemId");
 
+          // conbvert to base64
+          const extUrl = btoa(`301040?${itemId}`);
 
-          window.location.href = `/responses?party=${itemId}`;
+          window.location.href = `/responses?party=${extUrl}`;
 
         });
 
 
-
-
         //====== ADD PROMOS ======//
-
-
-
 
         $('#lessonTableBody tbody').on('click', '.eachRadioEditButton', function () {
 
@@ -550,6 +547,10 @@
     // }).catch((err) => {
     //   console.log(err);
     // })
+    const CLIENT_ID = "7b284e5c32dbf9f619e21348d8f5bed408354845"
+    const CLIENT_SECRET = "6d1c4eb262cd27e0757aca9f38608f79f5acc7b1"
+    const ACCESS_TOKEN = "4fcfe39159be5bc60a11887d55b5dc2683001adc"
+
   </script>
 
 </body>
