@@ -315,7 +315,7 @@
                             </td>
 
                             <td><button itemId=${item.id} class="btn btn-primary eachRadioEditButton">Edit</button></td>
-                            <td><button itemId=${item.id} class="btn btn-danger  eachRadioDeleteButton" disabled>Delete</button></td>
+                            <td><button itemId=${item.id} class="btn btn-danger  eachRadioDeleteButton">Delete</button></td>
                           </tr>`;
           staionsArray.push(eacher)
         });
@@ -428,36 +428,36 @@
          })
 
 
-        /*
+         $('#lessonTableBody tbody').on('click', '.eachRadioDeleteButton', function () {
 
-       $('#lessonTableBody tbody').on('click', '.eachRadioDeleteButton', function () {
-
-         const stationId = $(this).attr("stationId");
-         const $this = $(this)
+           const stationId = $(this).attr("itemId");
+           const $this = $(this)
 
 
-         if (confirm('Are you sure you want Delete This Radio Staion?')) {
-         //===== Delete Radio Staition ===//
-          $this.text("Performing Delete...");
+           if (confirm('Are you sure you want Delete This Radio Staion?')) {
+           //===== Delete Radio Staition ===//
+            $this.text("Performing Delete...");
 
-           axios.delete(`https://poole23.herokuapp.com/api/radios/delete/${stationId}`)
-           .then((response) => {
-             console.log(response.data);
-             $this.text("successful");
-             location.reload();
-           })
-           .catch((err) => {
-             console.log(err);
-           });
+            // /*
+             axios.delete(`https://poole23.herokuapp.com/api/wheels/${stationId}`)
+             .then((response) => {
+               console.log(response.data);
+               $this.text("successful");
+               location.reload();
+             })
+             .catch((err) => {
+               console.log(err);
+             });
+             // */
 
-         //==== Delete Radio Station ====//
-          } else {
-            // Do nothing!
-          }
+           //==== Delete Radio Station ====//
+            } else {
+              // Do nothing!
+            }
 
 
-        })
-        */
+          })
+
 
 
       //===== Create Radio Staion ===//
