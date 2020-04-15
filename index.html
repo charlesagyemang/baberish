@@ -232,7 +232,9 @@
                                 <th>Owner Name</th>
                                 <th>Email</th>
                                 <th>Phone Number</th>
-                                <th>Wheels</th>
+                                <th>Number Of Wheels</th>
+                                <th>Owner Link</th>
+
                                 <th>Edit</th>
                                 <th>Delete</th>
                               </tr>
@@ -242,7 +244,9 @@
                                 <th>Radio Name</th>
                                 <th>Location</th>
                                 <th>Stream Link</th>
-                                <th>Wheels</th>
+                                <th>Number Of Wheels  </th>
+                                <th>Owner Link</th>
+
                                 <th>Edit</th>
                                 <th>Delete</th>
                               </tr>
@@ -261,9 +265,11 @@
                             <td>${item.name}</td>
                             <td>${item.email}</td>
                             <td>${item.phoneNumber}</td>
+                            <td>${item.wheels.length} Wheel(s)</td>
                             <td>
-                              ${item.wheels.length} Wheel(s)
-                              <a href=${formUrl} class="btn btn-secondary">View Wheel(s)</a>
+                              <input id=${item.id}  type="text" value="https://wheel.pianoafrik.org${formUrl}"></input><br /><br />
+                              <a href=${formUrl} target="_blank" class="btn btn-secondary">Preview</a>
+                              <button id="${item.id}111" onClick=myFunction("${item.id}") target="_blank" class="myInput btn btn-info">Copy</button>
                             </td>
                             <td><button itemId=${item.id} class="btn btn-primary eachRadioEditButton">Edit</button></td>
                             <td><button itemId=${item.id} class="btn btn-danger  eachRadioDeleteButton">Delete</button></td>
@@ -426,6 +432,31 @@
 
 
   });
+
+  function myFunction(id) {
+    /* Get the text field */
+
+    // console.log(helo);
+
+    let copyText = document.getElementById(id);
+    let button   = $(`#${id}111`);
+
+    /* Select the text field */
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+
+    button.text("Copied")
+
+    setTimeout(function() {
+      button.text("Copy")
+    }, 1200)
+
+    /* Alert the copied text */
+    // alert("Copied To Clipboard Successfully")
+  }
   </script>
 
 </body>
