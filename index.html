@@ -252,12 +252,19 @@
         const staionsArray = [];
 
         radioStaions.forEach((item, i) => {
+          //create some link here
+          const itemId = $(this).attr("itemId");
+          const extUrl = btoa(`301040?${item.id}`);
+          const formUrl = `/owner-wheels?party=${extUrl}`;
 
           const eacher = `<tr>
                             <td>${item.name}</td>
                             <td>${item.email}</td>
                             <td>${item.phoneNumber}</td>
-                            <td>${item.wheels.length} Wheels</td>
+                            <td>
+                              ${item.wheels.length} Wheel(s)
+                              <a href=${formUrl} class="btn btn-secondary">View Wheel(s)</a>
+                            </td>
                             <td><button itemId=${item.id} class="btn btn-primary eachRadioEditButton">Edit</button></td>
                             <td><button itemId=${item.id} class="btn btn-danger  eachRadioDeleteButton">Delete</button></td>
                           </tr>`;
