@@ -138,204 +138,216 @@
 
   //get responses
   let searchParams = new URLSearchParams(window.location.search);
-  let param = atob(searchParams.get('party')).split("301040?")[1];
+  let datum = atob(searchParams.get('party')).split("301040?")[1].split("&");
+  let param = datum[0];
+  const valid = datum[1].split("=")[1];
 
-  console.log(param);
+  console.log(valid);
 
-  var padding = {top:20, right:40, bottom:0, left:0},
-          w = 500 - padding.left - padding.right,
-          h = 500 - padding.top  - padding.bottom,
-          r = Math.min(w, h)/2,
-          rotation = 0,
-          oldrotation = 0,
-          picked = 100000,
-          oldpick = [],
-          color = d3.scale.category20();//category20c()
+  if (valid === 'false') {
+    console.log("not valid");
+    $("#info-top").html(``);
+    $("#mainHeader").html('This Promo Is No Longer Running. Thank you');
+  } else {
+    //////======= BEGIN ========//////
 
-          $("#info-top").html("Loading Please Wait...");
+    var padding = {top:20, right:40, bottom:0, left:0},
+            w = 500 - padding.left - padding.right,
+            h = 500 - padding.top  - padding.bottom,
+            r = Math.min(w, h)/2,
+            rotation = 0,
+            oldrotation = 0,
+            picked = 100000,
+            oldpick = [],
+            color = d3.scale.category20();//category20c()
 
-    axios.get(`https://poole23.herokuapp.com/api/wheels/${param}`)
-    .then((response) => {
+            $("#info-top").html("Loading Please Wait...");
 
-      const wheelData = response.data
+      axios.get(`https://poole23.herokuapp.com/api/wheels/${param}`)
+      .then((response) => {
 
-      let data =  wheelData.promos;
-
-      // console.log(data);
-
-
-      $("#info-top").html(`${response.data.subHeader}`);
-      $("#mainHeader").html(`${response.data.header}`)
-
-
-      var svg = d3.select('#chart')
-          .append("svg")
-          .data([data])
-          .attr("width",  w + padding.left + padding.right)
-          .attr("height", h + padding.top + padding.bottom);
-      var container = svg.append("g")
-          .attr("class", "chartholder")
-          .attr("transform", "translate(" + (w/2 + padding.left) + "," + (h/2 + padding.top) + ")");
-      var vis = container
-          .append("g");
-
-      var pie = d3.layout.pie().sort(null).value(function(d){return 1;});
-      // declare an arc generator function
-      var arc = d3.svg.arc().outerRadius(r);
-      // select paths, use arc generator to draw
-      var arcs = vis.selectAll("g.slice")
-          .data(pie)
-          .enter()
-          .append("g")
-          .attr("class", "slice");
-
-      arcs.append("path")
-          .attr("fill", function(d, i){ return color(i); })
-          .attr("d", function (d) { return arc(d); });
-      // add the text
-      arcs.append("text").attr("transform", function(d){
-              d.innerRadius = 0;
-              d.outerRadius = r;
-              d.angle = (d.startAngle + d.endAngle)/2;
-              return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -10) +")";
-          })
-          .attr("text-anchor", "end")
-          .text( function(d, i) {
-              return data[i].label;
-          });
-      container.on("click", spin);
-      function spin(d){
-
-          container.on("click", null);
-          //all slices have been seen, all done
-          console.log("OldPick: " + oldpick.length, "Data length: " + data.length);
-          if(oldpick.length == data.length){
-              console.log("done");
-              container.on("click", null);
-              return;
-          }
-          var  ps       = 360/data.length,
-               pieslice = Math.round(1440/data.length),
-               rng      = Math.floor((Math.random() * 1440) + 360);
-
-          rotation = (Math.round(rng / ps) * ps);
-
-          picked = Math.round(data.length - (rotation % 360)/ps);
-          picked = picked >= data.length ? (picked % data.length) : picked;
-          if(oldpick.indexOf(picked) !== -1){
-              d3.select(this).call(spin);
-              return;
-          } else {
-              oldpick.push(picked);
-          }
-          rotation += 90 - Math.round(ps/2);
-          vis.transition()
-              .duration(4000)
-              .attrTween("transform", rotTween)
-              .each("end", function(){
-                  //mark question as seen
-                  d3.select(".slice:nth-child(" + (picked + 1) + ") path")
-                      .attr("fill", "#111");
-                  //populate question
-                  d3.select("#question h1")
-                      .text(data[picked].question);
-                  oldrotation = rotation;
-
-                  /* Get the result value from object "data" */
-                  const gottenFinalData = data[picked];
+        const wheelData = response.data
+        let data =  wheelData.promos;
+        // console.log(data);
 
 
-                  // open modal
-                  $("#openOwnerModal").click();
+        $("#info-top").html(`${response.data.subHeader}`);
+        $("#mainHeader").html(`${response.data.header}`)
 
-                  $("#addOwnerModalText").html(`${gottenFinalData.question} </br> Please fill the form below and click submit to claim your prize`);
 
-                  //declare the stuff
-                  $("#performSendAction").click(function() {
+        var svg = d3.select('#chart')
+            .append("svg")
+            .data([data])
+            .attr("width",  w + padding.left + padding.right)
+            .attr("height", h + padding.top + padding.bottom);
+        var container = svg.append("g")
+            .attr("class", "chartholder")
+            .attr("transform", "translate(" + (w/2 + padding.left) + "," + (h/2 + padding.top) + ")");
+        var vis = container
+            .append("g");
 
-                    const $this =  $(this);
-                    const inputOne = $("#inputOne").val();
-                    const inputTwo = $("#inputTwo").val();
-                    const inputThree = $("#inputThree").val();
-                    const inputFour = $("#inputFour").val();
+        var pie = d3.layout.pie().sort(null).value(function(d){return 1;});
+        // declare an arc generator function
+        var arc = d3.svg.arc().outerRadius(r);
+        // select paths, use arc generator to draw
+        var arcs = vis.selectAll("g.slice")
+            .data(pie)
+            .enter()
+            .append("g")
+            .attr("class", "slice");
 
-                    if (inputOne.length > 0 && inputTwo.length > 0 && inputThree.length > 0 && inputFour.length > 0 ) {
+        arcs.append("path")
+            .attr("fill", function(d, i){ return color(i); })
+            .attr("d", function (d) { return arc(d); });
+        // add the text
+        arcs.append("text").attr("transform", function(d){
+                d.innerRadius = 0;
+                d.outerRadius = r;
+                d.angle = (d.startAngle + d.endAngle)/2;
+                return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -10) +")";
+            })
+            .attr("text-anchor", "end")
+            .text( function(d, i) {
+                return data[i].label;
+            });
+        container.on("click", spin);
+        function spin(d){
 
-                      const dataToSend = {
-                        customerName: inputOne,
-                        customerPhone: inputTwo,
-                        customerEmail: inputThree,
-                        wheelId: wheelData.id,
-                        promoId: gottenFinalData.id,
-                        other: {
-                          location: inputFour,
-                          message: `Hi ${inputOne}, ${gottenFinalData.question}. Thank you for participating in the ${wheelData.header}`,
-                        },
-                      }
+            container.on("click", null);
+            //all slices have been seen, all done
+            console.log("OldPick: " + oldpick.length, "Data length: " + data.length);
+            if(oldpick.length == data.length){
+                console.log("done");
+                container.on("click", null);
+                return;
+            }
+            var  ps       = 360/data.length,
+                 pieslice = Math.round(1440/data.length),
+                 rng      = Math.floor((Math.random() * 1440) + 360);
 
-                      // check input two and three
+            rotation = (Math.round(rng / ps) * ps);
 
-                      const responsesSentAlready = wheelData.responses;
+            picked = Math.round(data.length - (rotation % 360)/ps);
+            picked = picked >= data.length ? (picked % data.length) : picked;
+            if(oldpick.indexOf(picked) !== -1){
+                d3.select(this).call(spin);
+                return;
+            } else {
+                oldpick.push(picked);
+            }
+            rotation += 90 - Math.round(ps/2);
+            vis.transition()
+                .duration(4000)
+                .attrTween("transform", rotTween)
+                .each("end", function(){
+                    //mark question as seen
+                    d3.select(".slice:nth-child(" + (picked + 1) + ") path")
+                        .attr("fill", "#111");
+                    //populate question
+                    d3.select("#question h1")
+                        .text(data[picked].question);
+                    oldrotation = rotation;
 
-                      // check if unique fields already exist
-                      const matchingDetails = responsesSentAlready.filter(e => e.customerEmail === dataToSend.customerEmail || e.customerPhone === dataToSend.customerPhone );
+                    /* Get the result value from object "data" */
+                    const gottenFinalData = data[picked];
 
-                      if (matchingDetails.length > 0 ) {
-                        alert("You Have Already SpinnedAnd Submitted. A Second Spin Is Not Allowed And May Cause Disqualification Thankyou.");
-                        $("#closeModal").click();
-                        window.location.href = "/wheels";
-                      } else {
-                        $this.text("Submitting....");
-                        console.log(matchingDetails);
-                        // /*
-                        axios.post('https://poole23.herokuapp.com/api/responses/', dataToSend)
-                        .then((response) => {
-                          console.log(response.data);
+
+                    // open modal
+                    $("#openOwnerModal").click();
+
+                    $("#addOwnerModalText").html(`${gottenFinalData.question} </br> Please fill the form below and click submit to claim your prize`);
+
+                    //declare the stuff
+                    $("#performSendAction").click(function() {
+
+                      const $this =  $(this);
+                      const inputOne = $("#inputOne").val();
+                      const inputTwo = $("#inputTwo").val();
+                      const inputThree = $("#inputThree").val();
+                      const inputFour = $("#inputFour").val();
+
+                      if (inputOne.length > 0 && inputTwo.length > 0 && inputThree.length > 0 && inputFour.length > 0 ) {
+
+                        const dataToSend = {
+                          customerName: inputOne,
+                          customerPhone: inputTwo,
+                          customerEmail: inputThree,
+                          wheelId: wheelData.id,
+                          promoId: gottenFinalData.id,
+                          other: {
+                            location: inputFour,
+                            message: `Hi ${inputOne}, ${gottenFinalData.question}. Thank you for participating in the ${wheelData.header}`,
+                          },
+                        }
+
+                        // check input two and three
+
+                        const responsesSentAlready = wheelData.responses;
+
+                        // check if unique fields already exist
+                        const matchingDetails = responsesSentAlready.filter(e => e.customerEmail === dataToSend.customerEmail || e.customerPhone === dataToSend.customerPhone );
+
+                        if (matchingDetails.length > 0 ) {
+                          alert("You Have Already SpinnedAnd Submitted. A Second Spin Is Not Allowed And May Cause Disqualification Thankyou.");
                           $("#closeModal").click();
-                          $this.text("Success Please Wait....");
                           window.location.href = "/wheels";
-                        }).catch((err) => {
-                          console.log(err.errors);
-                          $this.text("Submit");
-                        });
+                        } else {
+                          $this.text("Submitting....");
+                          console.log(matchingDetails);
+                          // /*
+                          axios.post('https://poole23.herokuapp.com/api/responses/', dataToSend)
+                          .then((response) => {
+                            console.log(response.data);
+                            $("#closeModal").click();
+                            $this.text("Success Please Wait....");
+                            window.location.href = "/wheels";
+                          }).catch((err) => {
+                            console.log(err.errors);
+                            $this.text("Submit");
+                          });
 
-                        // */
+                          // */
+                        }
+
+
+                      } else {
+                        alert("Error!!! Please fill all fields dont leave any empty");
                       }
+                    })
+                    /* Comment the below line for restrict spin to sngle time */
+                    // container.on("click", spin);
+                });
+        }
+        //make arrow
+        svg.append("g")
+            .attr("transform", "translate(" + (w + padding.left + padding.right) + "," + ((h/2)+padding.top) + ")")
+            .append("path")
+            .attr("d", "M-" + (r*.15) + ",0L0," + (r*.05) + "L0,-" + (r*.05) + "Z")
+            .style({"fill":"black"});
+        //draw spin circle
+        container.append("circle")
+            .attr("cx", 0)
+            .attr("cy", 0)
+            .attr("r", 60)
+            .style({"fill":"white","cursor":"pointer"});
+        //spin text
+        container.append("text")
+            .attr("x", 0)
+            .attr("y", 15)
+            .attr("text-anchor", "middle")
+            .text("SPIN")
+            .style({"font-weight":"bold", "font-size":"30px"});
+            }).catch((error) => {
+              console.log(error);
+              $("#info-top").html("Error Please Reload Page");
+
+            });
+
+      ///======= ENDED ======///
 
 
-                    } else {
-                      alert("Error!!! Please fill all fields dont leave any empty");
-                    }
-                  })
-                  /* Comment the below line for restrict spin to sngle time */
-                  // container.on("click", spin);
-              });
-      }
-      //make arrow
-      svg.append("g")
-          .attr("transform", "translate(" + (w + padding.left + padding.right) + "," + ((h/2)+padding.top) + ")")
-          .append("path")
-          .attr("d", "M-" + (r*.15) + ",0L0," + (r*.05) + "L0,-" + (r*.05) + "Z")
-          .style({"fill":"black"});
-      //draw spin circle
-      container.append("circle")
-          .attr("cx", 0)
-          .attr("cy", 0)
-          .attr("r", 60)
-          .style({"fill":"white","cursor":"pointer"});
-      //spin text
-      container.append("text")
-          .attr("x", 0)
-          .attr("y", 15)
-          .attr("text-anchor", "middle")
-          .text("SPIN")
-          .style({"font-weight":"bold", "font-size":"30px"});
-          }).catch((error) => {
-            console.log(error);
-            $("#info-top").html("Error Please Reload Page");
 
-          });
-
+  }
 
 
 
@@ -361,6 +373,9 @@
           }
           return array;
       }
+
+
+
   </script>
 
 </body>
