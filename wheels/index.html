@@ -295,7 +295,7 @@
           // check date validity
           const closingDate = Date.parse(item.dateToEnd);
           const dateToday = Date.now();
-          const valid = (closingDate - dateToday) < 0
+          const valid = closingDate > dateToday
           const itemId = $(this).attr("itemId");
           const extUrl = btoa(`301040?${item.id}&valid=${valid}`);
           const formUrl = `https://wheel.pianoafrik.org/responses?party=${extUrl}`;
