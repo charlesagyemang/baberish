@@ -182,16 +182,20 @@
                           <tr>
                             <th>Customer Name</th>
                             <th>Customer Email</th>
+                            <th>Customer Phone</th>
                             <th>Location</th>
                             <th>Prize Won</th>
+                            <th>Spinning Date</th>
                           </tr>
                         </thead>
                         <tfoot>
                           <tr>
-                          <th>Customer Name</th>
-                          <th>Customer Email</th>
-                          <th>Location</th>
-                          <th>Prize Won</th>
+                            <th>Customer Name</th>
+                            <th>Customer Email</th>
+                            <th>Customer Phone</th>
+                            <th>Location</th>
+                            <th>Prize Won</th>
+                            <th>Spinning Date</th>
                           </tr>
                         </tfoot>
                         <tbody>
@@ -206,8 +210,10 @@
       const eacher = `<tr>
                         <td>${item.customerName}</td>
                         <td>${item.customerEmail}</td>
+                        <td>${item.customerPhone}</td>
                         <td>${item.other.location}</td>
                         <td>${proomm.label}</td>
+                        <td>${item.createdAt.split("T")[0]}</td>
                       </tr>`;
       staionsArray.push(eacher)
     });
