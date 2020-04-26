@@ -288,9 +288,10 @@
                         const matchingDetails = responsesSentAlready.filter(e => e.customerEmail === dataToSend.customerEmail || e.customerPhone === dataToSend.customerPhone );
 
                         if (matchingDetails.length > 0 ) {
-                          alert("You Have Already SpinnedAnd Submitted. A Second Spin Is Not Allowed And May Cause Disqualification Thankyou.");
+                          alert("You Have Already Spinned And Submitted. A Second Spin Is Not Allowed And May Cause Disqualification Thankyou.");
                           $("#closeModal").click();
-                          window.location.href = "/wheels";
+                          localStorage.resultMessage = "You Have Already Spinned And Submitted. A Second Spin Is Not Allowed And May Cause Disqualification Thankyou."
+                          window.location.href = "/congrats";
                         } else {
                           $this.text("Submitting....");
                           console.log(matchingDetails);
@@ -300,7 +301,8 @@
                             console.log(response.data);
                             $("#closeModal").click();
                             $this.text("Success Please Wait....");
-                            window.location.href = "/wheels";
+                            localStorage.resultMessage = `${gottenFinalData.question}`;
+                            window.location.href = "/congrats";
                           }).catch((err) => {
                             console.log(err.errors);
                             $this.text("Submit");
