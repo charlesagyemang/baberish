@@ -26,9 +26,31 @@
 
   <!-- Custom styles for this template-->
   <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/extra.css">
   <style>
+    text{
+        font-family:Helvetica, Arial, sans-serif;
+        font-size:11px;
+        pointer-events:none;
+    }
 
+    #question{
+        position: absolute;
+        width:100px;
+        height:200px;
+        top:0;
+        left:220px;
+    }
+    #question h1{
+        font-size: 20px;
+        font-weight: bold;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        position: absolute;
+        padding: 0;
+        margin: 0;
+        top:50%;
+        -webkit-transform:translate(0,-50%);
+                transform:translate(0,-50%);
+    }
   </style>
 
 </head>
@@ -108,20 +130,10 @@
         <div class="col">
         </div>
         <div class="col">
-          <h1 id="mainHeader"></strong></h1>
-          <h2 id="info-top">Loading...</h2>
-        </div>
-        <div class="col">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-        </div>
-        <div class="col">
-            <div class="">
-              <div id="chart"></div>
-              <div id="question"><h1></h1></div>
-            </div>
+          <h1 style="font-size: 18px" id="mainHeader"></h1>
+          <h2 style="font-size: 11px" id="info-top">Loading...</h2>
+          <div id="chart"></div>
+          <div id="question"></div>
         </div>
         <div class="col">
         </div>
@@ -139,11 +151,13 @@
 
   if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
     console.log("mobile");
+
+  } else {
+    console.log("PC");
     // redirect to mobile
     const urlExtention = location.href.split("?")[1];
-    const mailUrl = `/mobile-responses/?${urlExtention}`
+    const mailUrl = `/responses/?${urlExtention}`
     window.location.href = mailUrl;
-    console.log("Mobile Url", location.href.split("?"));
   }
 
   //get responses
@@ -153,7 +167,6 @@
   const valid = datum[1].split("=")[1];
 
   // console.log(valid);
-
   if (valid === 'false') {
     // console.log("not valid");
     $("#info-top").html(``);
@@ -164,16 +177,15 @@
 
   } else {
     //////======= BEGIN ========//////
-
     var padding = {top:20, right:40, bottom:0, left:0},
-            w = 500 - padding.left - padding.right,
-            h = 500 - padding.top  - padding.bottom,
+            w = 320 - padding.left - padding.right,
+            h = 320 - padding.top  - padding.bottom,
             r = Math.min(w, h)/2,
             rotation = 0,
             oldrotation = 0,
             picked = 100000,
             oldpick = [],
-            color = d3.scale.category20();//category20c()
+            color = d3.scale.category20();
 
             $("#info-top").html("Loading Please Wait...");
 
@@ -183,11 +195,8 @@
         const wheelData = response.data
         let data =  wheelData.promos;
         // console.log(data);
-
-
         $("#info-top").html(`${response.data.subHeader}`);
-        $("#mainHeader").html(`${response.data.header}`)
-
+        $("#mainHeader").html(`${response.data.header}`);
 
         var svg = d3.select('#chart')
             .append("svg")
@@ -344,15 +353,15 @@
         container.append("circle")
             .attr("cx", 0)
             .attr("cy", 0)
-            .attr("r", 60)
+            .attr("r", 25)
             .style({"fill":"white","cursor":"pointer"});
         //spin text
         container.append("text")
             .attr("x", 0)
-            .attr("y", 15)
+            .attr("y", 5)
             .attr("text-anchor", "middle")
             .text("SPIN")
-            .style({"font-weight":"bold", "font-size":"30px"});
+            .style({"font-weight":"bold", "font-size":"15px"});
             }).catch((error) => {
               console.log(error);
               $("#info-top").html("Error Please Reload Page");
