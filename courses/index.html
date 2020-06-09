@@ -465,7 +465,7 @@
               $this.text("Updatng Data Please Wait...")
               console.log(JSON.parse(localStorage.myConfig));
 
-              axios.post(`https://poole23.herokuapp.com/api/courses/edit/${courseId}`, bodyToSend, myConfig)
+              axios.post(`https://afrikdotorg.herokuapp.com/api/courses/edit/${courseId}`, bodyToSend, myConfig)
               .then((response) => {
                 $this.text("Success... Realoading... Please Wait");
                 // console.log("...done");
@@ -494,7 +494,7 @@
             if (sure) {
               $this.text("Deleting..")
 
-              axios.post(`https://poole23.herokuapp.com/api/courses/delete/${courseId}`, { channelId: channel.id }, myConfig)
+              axios.post(`https://afrikdotorg.herokuapp.com/api/courses/delete/${courseId}`, { channelId: channel.id }, myConfig)
               .then((response) => {
                 $this.text("Success... Realoading... Please Wait");
                 console.log(response.data);

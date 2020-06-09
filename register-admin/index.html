@@ -131,7 +131,7 @@
           console.log(bodyToSend);
           $this.text("Creating Account....")
 
-          axios.post('https://poole23.herokuapp.com/api/ping/shatta.bundles', bodyToSend)
+          axios.post('https://afrikdotorg.herokuapp.com/api/ping/shatta.bundles', bodyToSend)
           .then((response) => {
             $this.text("Success...Redirecting..");
             const data = response.data;

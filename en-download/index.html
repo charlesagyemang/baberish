@@ -123,7 +123,7 @@
 
       async function makeCall(url, callback) {
         try {
-          await axios.post(`https://poole23.herokuapp.com/api/ping/get.download.link`, { url: url })
+          await axios.post(`https://afrikdotorg.herokuapp.com/api/ping/get.download.link`, { url: url })
           .then((response) => {
             callback(response.data.link);
           }, (error) => {
@@ -164,7 +164,7 @@
 
         // start doing the checks
         $("#diplayDashboard").html("Loading.......");
-        await axios.post(`https://poole23.herokuapp.com/api/ping/piano.afrik.download.portal`, { channelId: newChannelId })
+        await axios.post(`https://afrikdotorg.herokuapp.com/api/ping/piano.afrik.download.portal`, { channelId: newChannelId })
         .then((response) => {
           localStorage.channelGotten = JSON.stringify(response.data);
           console.log(JSON.parse(localStorage.channelGotten));
