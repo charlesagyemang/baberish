@@ -30,7 +30,7 @@ $("#addNewCourse").unbind("click").click(function(){
       $this.text("Addind Data....");
       // console.log(channel.id);
       // /*
-      axios.post('https://poole23.herokuapp.com/api/courses', bodyToSend, JSON.parse(localStorage.myConfig))
+      axios.post('https://afrikdotorg.herokuapp.com/api/courses', bodyToSend, JSON.parse(localStorage.myConfig))
       .then((response) => {
         $this.text("Success...");
         console.log("...done");
@@ -90,7 +90,7 @@ $("#addNewLesson").unbind("click").click(function(){
       // console.log(channelId,bodyToSend);
       $this.text("Creating Lesson....");
 
-      axios.post(`https://poole23.herokuapp.com/api/lessons/${channelId}`, bodyToSend, JSON.parse(localStorage.myConfig))
+      axios.post(`https://afrikdotorg.herokuapp.com/api/lessons/${channelId}`, bodyToSend, JSON.parse(localStorage.myConfig))
       .then((response) => {
         $this.text("Success...");
         // console.log("...done");
