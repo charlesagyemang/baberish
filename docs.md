@@ -1,5 +1,5 @@
 # Radio Stations Docs
-### Endpoint: https://poole23.herokuapp.com/api/radios
+### Endpoint: https://afrikdotorg.herokuapp.com/api/radios
 
 ### Route: /agba-details
 ### POST

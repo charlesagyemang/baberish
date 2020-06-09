@@ -34,7 +34,7 @@ $("#addNewCourse").unbind("click").click(function(){
       $this.text("Addind Data....");
       console.log(bodyToSend);
       // /*
-      axios.post('https://poole23.herokuapp.com/api/courses', bodyToSend, JSON.parse(localStorage.myConfig))
+      axios.post('https://afrikdotorg.herokuapp.com/api/courses', bodyToSend, JSON.parse(localStorage.myConfig))
       .then((response) => {
         $this.text("Success...");
         console.log("...done");
@@ -94,7 +94,7 @@ $("#addNewLesson").unbind("click").click(function(){
       // console.log(channelId,bodyToSend);
       $this.text("Creating Lesson....");
 
-      axios.post(`https://poole23.herokuapp.com/api/lessons/${channelId}`, bodyToSend, JSON.parse(localStorage.myConfig))
+      axios.post(`https://afrikdotorg.herokuapp.com/api/lessons/${channelId}`, bodyToSend, JSON.parse(localStorage.myConfig))
       .then((response) => {
         $this.text("Success...");
         // console.log("...done");
@@ -118,7 +118,7 @@ $("#addNewLesson").unbind("click").click(function(){
 //====== End Add New Lesson Logic ====//
 
 $("#fire").unbind("click").click(function(){
-  axios.get(`https://poole23.herokuapp.com/api/channels/${JSON.parse(localStorage.channelGotten).id}`, JSON.parse(localStorage.myConfig))
+  axios.get(`https://afrikdotorg.herokuapp.com/api/channels/${JSON.parse(localStorage.channelGotten).id}`, JSON.parse(localStorage.myConfig))
   .then((response) => {
     console.log("loading.....");
     console.log(response.data);
